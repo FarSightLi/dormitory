@@ -4,17 +4,23 @@ import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
 import com.alibaba.excel.util.ListUtils;
 import com.alibaba.fastjson.JSON;
-import com.example.entity.Dormitory;
-import com.example.service.DormitoryService;
+import com.example.entity.Building;
+import com.example.service.BuildingService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-// 有个很重要的点 DemoDataListener 不能被spring管理，要每次读取excel都要new,然后里面用到spring可以构造方法传进去
-public class DataListener extends AnalysisEventListener<Dormitory> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataListener.class);
+/**
+ * @ClassName: BuildingDataListener
+ * @Description: 修改building表的监听器
+ * @author: LongSheng Li
+ * @date: 2022/5/1 19:38
+ */
+
+public class BuildingDataListener extends AnalysisEventListener<Building> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DormitoryDataListener.class);
     /**
      * 每隔5条存储数据库，实际使用中可以3000条，然后清理list ，方便内存回收
      */
@@ -22,19 +28,19 @@ public class DataListener extends AnalysisEventListener<Dormitory> {
     /**
      * 缓存的数据
      */
-    private List<Dormitory> cachedDataList = ListUtils.newArrayListWithExpectedSize(BATCH_COUNT);
+    private List<Building> cachedDataList = ListUtils.newArrayListWithExpectedSize(BATCH_COUNT);
 
 
     @Autowired
-    private DormitoryService dormitoryService;
+    private BuildingService buildingService;
 
     /**
      * 如果使用了spring,请使用这个构造方法。每次创建Listener的时候需要把spring管理的类传进来
      *
-     * @param dormitoryService
+     * @param buildingService
      */
-    public DataListener(DormitoryService dormitoryService) {
-        this.dormitoryService = dormitoryService;
+    public BuildingDataListener(BuildingService buildingService) {
+        this.buildingService = buildingService;
     }
 
     /**
@@ -44,7 +50,7 @@ public class DataListener extends AnalysisEventListener<Dormitory> {
      * @param context
      */
     @Override
-    public void invoke(Dormitory data, AnalysisContext context) {
+    public void invoke(Building data, AnalysisContext context) {
         LOGGER.info("解析到一条数据:{}", JSON.toJSONString(data));
         cachedDataList.add(data);
         // 达到BATCH_COUNT了，需要去存储一次数据库，防止数据几万条数据在内存，容易OOM
@@ -72,9 +78,8 @@ public class DataListener extends AnalysisEventListener<Dormitory> {
      */
     private void saveData() {
         LOGGER.info("{}条数据，开始存储数据库！", cachedDataList.size());
-        dormitoryService.addStudent(cachedDataList);
+        buildingService.addBuilding(cachedDataList);
         LOGGER.info("存储数据库成功！");
     }
-
 
 }

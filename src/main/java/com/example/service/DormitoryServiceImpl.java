@@ -42,25 +42,6 @@ public class DormitoryServiceImpl implements DormitoryService {
      */
     private List<Dormitory> cachedAllList = ListUtils.newArrayListWithExpectedSize(BATCH_COUNT);
 
-    /**
-     * 分配宿舍
-     *
-     * @Params [dormitoryList]
-     * @Return void
-     * @author longsheng li
-     * @date 2022/5/1 16:48
-     * @update_at 2022/5/1 16:48
-     */
-
-    public void dealDormitory1(List<Dormitory> dormitoryList) {
-        cachedDataList = dormitoryList;
-
-        for (int i = 0; i < BATCH_COUNT; i++) {
-
-        }
-
-    }
-
     private List<Dormitory> dealDormitory(String sex, List<Dormitory> dormitoryList) {
         //用于在dormitoryList里寻找的索引
         Integer studentsNum = 0;
@@ -72,6 +53,7 @@ public class DormitoryServiceImpl implements DormitoryService {
         List<Dormitory> dormitories = ListUtils.newArrayListWithExpectedSize(BATCH_COUNT);
         for (BuildingDO buildingDO : dormitory) {
             Integer DID = buildingDO.getDID();
+            //该宿舍分配完以后的capacityNow
             Integer capacityNow = buildingDO.getCapacityNow();
             //当该宿舍人未满时，将该DID依次赋给学生
             for (int i = 1; i <= buildingDO.getCapacity() - buildingDO.getCapacityNow(); i++) {
@@ -79,28 +61,31 @@ public class DormitoryServiceImpl implements DormitoryService {
                 dormitories.add(dormitory1.setDID(DID));
                 studentsNum++;
                 capacityNow++;
+                //学生分配完以后跳出
                 if (studentsNum >= dormitoryList.size()) {
                     break;
                 }
             }
             buildingDOS.add(buildingDO.setCapacityNow(capacityNow));
+            //学生分配完以后跳出
             if (studentsNum >= dormitoryList.size()) {
                 break;
             }
         }
+        //TODO 此处需将数据持久化
         System.out.println(buildingDOS);
         System.out.println(dormitories);
         return null;
     }
 
-    public void dealMenDormitory(List<Dormitory> dormitoryList) {
+    private void dealMenDormitory(List<Dormitory> dormitoryList) {
         //调用方法使男女分开
         List<Dormitory> menDormitories = dealSex("男", dormitoryList);
         //给统一的分配方法来分配
         dealDormitory("男", menDormitories);
     }
 
-    public void dealWomenDormitory(List<Dormitory> dormitoryList) {
+    private void dealWomenDormitory(List<Dormitory> dormitoryList) {
         //调用方法使男女分开
         List<Dormitory> womenDormitories = dealSex("女", dormitoryList);
         //给统一的分配方法来分配
@@ -116,7 +101,7 @@ public class DormitoryServiceImpl implements DormitoryService {
      * @date 2022/5/1 17:18
      * @update_at 2022/5/1 17:18
      */
-    public List<Dormitory> dealSex(String sex, List<Dormitory> dormitoryList) {
+    private List<Dormitory> dealSex(String sex, List<Dormitory> dormitoryList) {
         //划分好男女的列表
         List<Dormitory> dormitories = ListUtils.newArrayListWithExpectedSize(BATCH_COUNT);
         if (sex.equals("女")) {
@@ -142,6 +127,7 @@ public class DormitoryServiceImpl implements DormitoryService {
     public void addStudent(List<Dormitory> dormitoryList) {
         dealMenDormitory(dormitoryList);
         dealWomenDormitory(dormitoryList);
+
     }
 
 }

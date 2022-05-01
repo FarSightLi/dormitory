@@ -1,6 +1,7 @@
 package com.example.mapper;
 
 import com.example.DO.BuildingDO;
+import com.example.entity.Building;
 
 import java.util.List;
 
@@ -10,6 +11,6 @@ public interface BuildingMapper {
 
     Integer updateNewInfo(List<BuildingDO> buildingDOList);
 
-    Integer allCount();
+    Integer addNew(List<Building> buildingList);
 
 }

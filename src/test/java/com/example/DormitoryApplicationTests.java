@@ -2,7 +2,7 @@ package com.example;
 
 import com.alibaba.excel.EasyExcel;
 import com.example.entity.Dormitory;
-import com.example.listener.DataListener;
+import com.example.listener.DormitoryDataListener;
 import com.example.mapper.BuildingMapper;
 import com.example.mapper.DormitoryMapper;
 import com.example.service.DormitoryService;
@@ -48,6 +48,6 @@ class DormitoryApplicationTests {
     @Test
     void excel() {
         String fileName = "C:\\Users\\骆灵上\\Desktop\\Dormitory.xlsx";
-        EasyExcel.read(fileName, Dormitory.class, new DataListener(dormitoryService)).sheet().doRead();
+        EasyExcel.read(fileName, Dormitory.class, new DormitoryDataListener(dormitoryService)).sheet().doRead();
     }
 }

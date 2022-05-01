@@ -9,10 +9,10 @@
     </resultMap>
 
     <select id="noPeopleDormitory" resultMap="BuildingDO">
-        select did,capacity_now,capacity
+        select did, capacity_now, capacity
         from building
         where sex = #{sex}
-          and capacity-capacity_now > 0;
+          and capacity - capacity_now > 0;
     </select>
 
     <update id="updateNewInfo" parameterType="java.util.LinkedList">
@@ -21,10 +21,12 @@
         </foreach>
     </update>
 
-    <select id="allCount" resultType="java.lang.Integer">
-        SELECT COUNT(*)
-        FROM building;
-    </select>
+    <insert id="addNew" parameterType="java.util.List">
+        insert into building (did,domitory_name,build_name,sex,capacity,capacity_now,code) values
+        <foreach collection="list" item="item" separator=",">
+            (#{item.DID},#{item.dormitoryName},#{item.buildingName},#{item.sex},#{item.capacity},#{item.capacityNow},#{item.code})
+        </foreach>
+    </insert>
 
 
 </mapper>

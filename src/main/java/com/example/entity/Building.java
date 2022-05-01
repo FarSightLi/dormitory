@@ -12,7 +12,7 @@ import java.util.Objects;
 public class Building {
     private Integer DID;
     private String dormitoryName;
-    private String buildName;
+    private String buildingName;
     private String sex;
     private Integer capacity;
     private Integer capacityNow;
@@ -34,12 +34,12 @@ public class Building {
         this.dormitoryName = dormitoryName;
     }
 
-    public String getBuildName() {
-        return buildName;
+    public String getBuildingName() {
+        return buildingName;
     }
 
-    public void setBuildName(String buildName) {
-        this.buildName = buildName;
+    public void setBuildingName(String buildingName) {
+        this.buildingName = buildingName;
     }
 
     public String getSex() {
@@ -79,12 +79,12 @@ public class Building {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Building building = (Building) o;
-        return Objects.equals(DID, building.DID) && Objects.equals(dormitoryName, building.dormitoryName) && Objects.equals(buildName, building.buildName) && Objects.equals(sex, building.sex) && Objects.equals(capacity, building.capacity) && Objects.equals(capacityNow, building.capacityNow) && Objects.equals(code, building.code);
+        return Objects.equals(DID, building.DID) && Objects.equals(dormitoryName, building.dormitoryName) && Objects.equals(buildingName, building.buildingName) && Objects.equals(sex, building.sex) && Objects.equals(capacity, building.capacity) && Objects.equals(capacityNow, building.capacityNow) && Objects.equals(code, building.code);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(DID, dormitoryName, buildName, sex, capacity, capacityNow, code);
+        return Objects.hash(DID, dormitoryName, buildingName, sex, capacity, capacityNow, code);
     }
 
     @Override
@@ -92,7 +92,7 @@ public class Building {
         return "Building{" +
                 "DID=" + DID +
                 ", dormitoryName='" + dormitoryName + '\'' +
-                ", buildName='" + buildName + '\'' +
+                ", buildName='" + buildingName + '\'' +
                 ", sex='" + sex + '\'' +
                 ", capacity=" + capacity +
                 ", capacityNow=" + capacityNow +
