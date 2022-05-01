@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.DormitoryMapper">
+
+
+    <insert id="insert" parameterType="java.util.List">
+        insert into dormitory (SID,name,DID,sex) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.SID},#{item.name},#{item.DID},#{item.sex})
+        </foreach>
+    </insert>
+
+    <select id="menID" resultType="java.lang.Integer">
+        select SID
+        from dormitory
+        where DID is null
+          and sex = '1';
+    </select>
+
+
+    <select id="womenID" resultType="java.lang.Integer">
+        select SID
+        from dormitory
+        where DID is null
+          and sex = '2';
+    </select>
+
+    <update id="complement" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index">
+            update dormitory set DID = #{item.DID} where SID = #{item.SID};
+        </foreach>
+    </update>
+
+    <select id="capacityNow" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM dormitory
+        WHERE did = #{did};
+    </select>
+
+</mapper>

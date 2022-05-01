@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.BuildingMapper">
+    <select id="noPeopleMenDID" resultType="java.lang.Integer">
+        select did from building where sex='1' and capacity_now=0;
+    </select>
+
+    <select id="noPeopleWomenDID" resultType="java.lang.Integer">
+        select did from building where sex='2' and capacity_now=0;
+    </select>
+
+    <update id="updateNewInfo" parameterType="java.util.LinkedList">
+        <foreach collection="list" item="item" index="index">
+            update building set capacity_now = #{item.capacityNow} where did = #{item.DID};
+        </foreach>
+    </update>
+
+    <select id="allCount" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM building;
+    </select>
+
+
+</mapper>
