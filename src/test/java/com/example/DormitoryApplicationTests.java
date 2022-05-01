@@ -3,6 +3,7 @@ package com.example;
 import com.alibaba.excel.EasyExcel;
 import com.example.entity.Dormitory;
 import com.example.listener.DataListener;
+import com.example.mapper.BuildingMapper;
 import com.example.mapper.DormitoryMapper;
 import com.example.service.DormitoryService;
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,9 @@ class DormitoryApplicationTests {
     @Autowired
     private DormitoryService dormitoryService;
 
+    @Autowired
+    private BuildingMapper buildingMapper;
+
     private List<Dormitory> dormitories = new LinkedList<>();
 
     @Autowired
@@ -37,13 +41,8 @@ class DormitoryApplicationTests {
 
     @Test
     void dataBase() {
-        List<Integer> nums = new LinkedList<>();
-        for (int i = 0; i < 4; i++) {
-            Integer num = dormitoryMapper.capacityNow(i);
-            nums.add(num);
-        }
+        buildingMapper.noPeopleDormitory("1");
 
-        System.out.println(nums);
     }
 
     @Test

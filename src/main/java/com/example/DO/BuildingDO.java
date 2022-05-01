@@ -10,6 +10,7 @@ package com.example.DO;
 public class BuildingDO {
     private Integer DID;
     private Integer capacityNow;
+    private Integer capacity;
 
     public BuildingDO() {
     }
@@ -17,6 +18,14 @@ public class BuildingDO {
     public BuildingDO(Integer DID, Integer capacityNow) {
         this.DID = DID;
         this.capacityNow = capacityNow;
+    }
+
+    public Integer getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(Integer capacity) {
+        this.capacity = capacity;
     }
 
     public Integer getDID() {
@@ -31,8 +40,9 @@ public class BuildingDO {
         return capacityNow;
     }
 
-    public void setCapacityNow(Integer capacityNow) {
+    public BuildingDO setCapacityNow(Integer capacityNow) {
         this.capacityNow = capacityNow;
+        return this;
     }
 
     @Override
@@ -40,6 +50,7 @@ public class BuildingDO {
         return "BuildingDO{" +
                 "DID=" + DID +
                 ", capacityNow=" + capacityNow +
+                ", capacity=" + capacity +
                 '}';
     }
 }

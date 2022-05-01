@@ -32,8 +32,9 @@ public class Dormitory {
         return DID;
     }
 
-    public void setDID(Integer DID) {
+    public Dormitory setDID(Integer DID) {
         this.DID = DID;
+        return this;
     }
 
     public String getSex() {

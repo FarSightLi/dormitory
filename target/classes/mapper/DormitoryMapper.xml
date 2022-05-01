@@ -6,8 +6,7 @@
 <mapper namespace="com.example.mapper.DormitoryMapper">
 
 
-
-    <insert id="insert" parameterType="java.util.List" >
+    <insert id="insert" parameterType="java.util.List">
         insert into dormitory (SID,name,DID,sex) values
         <foreach collection="list" item="item" index="index" separator=",">
             (#{item.SID},#{item.name},#{item.DID},#{item.sex})
@@ -15,13 +14,18 @@
     </insert>
 
     <select id="menID" resultType="java.lang.Integer">
-        select SID from dormitory where DID is null and sex='1';
+        select SID
+        from dormitory
+        where DID is null
+          and sex = '1';
     </select>
 
 
-
     <select id="womenID" resultType="java.lang.Integer">
-        select SID from dormitory where DID is null and sex='2';
+        select SID
+        from dormitory
+        where DID is null
+          and sex = '2';
     </select>
 
     <update id="complement" parameterType="java.util.List">
@@ -31,7 +35,9 @@
     </update>
 
     <select id="capacityNow" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-        SELECT COUNT(*) FROM dormitory WHERE did=#{did};
+        SELECT COUNT(*)
+        FROM dormitory
+        WHERE did = #{did};
     </select>
 
 </mapper>
