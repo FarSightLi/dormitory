@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.mapper.ManagerMapper">
+    <insert id="insert" parameterType="com.example.entity.Manager">
+        insert into manager (id, pwd, salt)
+        VALUES (#{id}, #{pwd}, #{salt});
+    </insert>
+
+    <select id="login" parameterType="com.example.entity.Manager">
+        select *
+        from manager
+        where id = #{id}
+          and pwd = #{pwd};
+    </select>
+
+    <select id="idCount" parameterType="int" resultType="int">
+        select count(*)
+        from manager
+        where id = #{id};
+    </select>
+
+    <select id="findInfo" parameterType="int" resultType="com.example.entity.Manager">
+        select *
+        from manager
+        where id = #{id};
+    </select>
+</mapper>

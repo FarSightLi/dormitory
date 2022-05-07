@@ -11,6 +11,7 @@ public interface BuildingMapper {
 
     Integer updateNewInfo(List<BuildingDO> buildingDOList);
 
+    //增加宿舍信息（第一次使用时）
     Integer addNew(List<Building> buildingList);
 
 }
