@@ -1,5 +1,6 @@
 package com.example.service;
 
+import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.util.ListUtils;
 import com.example.DO.BuildingDO;
 import com.example.DO.DormitoryDO;
@@ -72,9 +73,8 @@ public class DormitoryServiceImpl implements DormitoryService {
                 break;
             }
         }
-        //TODO 此处需将数据持久化
-        System.out.println(buildingDOS);
-        System.out.println(dormitories);
+        dormitoryMapper.insert(dormitories);
+        buildingMapper.updateNewInfo(buildingDOS);
         return null;
     }
 
@@ -112,9 +112,7 @@ public class DormitoryServiceImpl implements DormitoryService {
             }
         }
         if (sex.equals("男")) {
-            System.out.println("nj");
             for (Dormitory dormitory : dormitoryList) {
-                System.out.println(dormitory);
                 if (dormitory.getSex().equals("男")) {
                     dormitories.add(dormitory);
                 }
@@ -130,4 +128,16 @@ public class DormitoryServiceImpl implements DormitoryService {
 
     }
 
+    @Override
+    public List<Dormitory> selectAll() {
+        String fileName = "C:\\Users\\骆灵上\\Desktop" + "宿舍名单" + System.currentTimeMillis() + ".xlsx";
+        EasyExcel.write(fileName, Dormitory.class)
+                .sheet("模板")
+                .doWrite(() -> {
+                    // 分页查询数据
+                    List<Dormitory> dormitories = dormitoryMapper.selectAll();
+                    return dormitories;
+                });
+        return null;
+    }
 }

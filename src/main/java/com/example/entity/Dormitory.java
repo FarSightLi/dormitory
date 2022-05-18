@@ -1,15 +1,20 @@
 package com.example.entity;
 
 
+import com.alibaba.excel.annotation.ExcelProperty;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
 @Component
 public class Dormitory {
+    @ExcelProperty("学号")
     private Integer SID;
+    @ExcelProperty("姓名")
     private String name;
+    @ExcelProperty("宿舍号")
     private Integer DID;
+    @ExcelProperty("性别")
     private String sex;
 
     public Integer getSID() {

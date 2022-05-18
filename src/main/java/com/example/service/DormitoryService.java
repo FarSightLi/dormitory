@@ -11,4 +11,5 @@ public interface DormitoryService {
 
     void addStudent(List<Dormitory> dormitoryList);
 
+    List<Dormitory> selectAll();
 }

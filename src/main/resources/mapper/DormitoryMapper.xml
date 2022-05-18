@@ -7,10 +7,12 @@
 
 
     <insert id="insert" parameterType="java.util.List">
-        insert into dormitory (SID,name,DID,sex) values
+        insert into dormitory (sid,name,did,sex)
+        values
         <foreach collection="list" item="item" index="index" separator=",">
             (#{item.SID},#{item.name},#{item.DID},#{item.sex})
         </foreach>
+        ;
     </insert>
 
     <select id="menID" resultType="java.lang.Integer">
@@ -38,6 +40,12 @@
         SELECT COUNT(*)
         FROM dormitory
         WHERE did = #{did};
+    </select>
+
+    <!--    以后需要多表联查-->
+    <select id="selectAll" resultType="com.example.entity.Dormitory">
+        select sid, name, did, sex
+        from dormitory;
     </select>
 
 </mapper>

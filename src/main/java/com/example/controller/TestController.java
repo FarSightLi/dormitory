@@ -6,6 +6,7 @@ import com.example.listener.DormitoryDataListener;
 import com.example.service.BuildingService;
 import com.example.service.DormitoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,12 +27,14 @@ public class TestController {
         return "hello";
     }
 
-    @PostMapping("upload")
+    @Transactional
+    @PutMapping("upload")
     @ResponseBody
     public String upload(MultipartFile file) throws IOException {
         EasyExcel.read(file.getInputStream(), com.example.entity.Dormitory.class, new DormitoryDataListener(dormitoryService)).sheet().doRead();
         return "success";
     }
+
 
     @GetMapping("/mapper")
     @ResponseBody
@@ -40,9 +43,17 @@ public class TestController {
         return "ok";
     }
 
-    @PostMapping("uploadBuilding")
+    @Transactional
+    @PutMapping("uploadBuilding")
     public String uploadBuilding(MultipartFile file) throws IOException {
         EasyExcel.read(file.getInputStream(), com.example.entity.Building.class, new BuildingDataListener(buildingService)).sheet().doRead();
+        return "success";
+    }
+
+    @Transactional
+    @PostMapping("download")
+    public String download() {
+        dormitoryService.selectAll();
         return "success";
     }
 }

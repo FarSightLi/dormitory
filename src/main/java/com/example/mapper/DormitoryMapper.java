@@ -20,4 +20,7 @@ public interface DormitoryMapper {
 
     //查询宿舍的现人数
     Integer capacityNow(Integer DID);
+
+    List<Dormitory> selectAll();
+
 }
