@@ -11,7 +11,7 @@ public interface ManagerService {
     /**
      * 登录
      */
-    void login(Manager manager);
+    Manager login(Manager manager);
 
 
 }

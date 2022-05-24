@@ -42,9 +42,10 @@
         WHERE did = #{did};
     </select>
 
-<!--    以后需要多表联查-->
+    <!--    TODO 以后需要多表联查-->
     <select id="selectAll" resultType="com.example.entity.Dormitory">
-        select sid,name,did,sex from dormitory;
+        select sid, name, did, sex
+        from dormitory;
     </select>
 
 </mapper>

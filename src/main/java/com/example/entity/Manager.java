@@ -15,6 +15,10 @@ public class Manager {
     private String pwd;
     private String salt;
 
+    public Manager() {
+
+    }
+
     public Integer getId() {
         return id;
     }
@@ -47,4 +51,51 @@ public class Manager {
                 ", salt='" + salt + '\'' +
                 '}';
     }
+
+//    public Manager(String username, String password, Collection<? extends GrantedAuthority> authorities) {
+//        super(username, password, authorities);
+//    }
+//    public Manager(String username, String password, String userId,Collection<? extends GrantedAuthority> authorities) {
+//        super(username, password, authorities);
+//        this.userId=userId;
+//    }
+//
+//    public Manager(String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
+//        super(username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities);
+//    }
+
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        return null;
+//    }
+//
+//    @Override
+//    public String getPassword() {
+//        return null;
+//    }
+//
+//    @Override
+//    public String getUsername() {
+//        return null;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonExpired() {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isAccountNonLocked() {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isCredentialsNonExpired() {
+//        return false;
+//    }
+//
+//    @Override
+//    public boolean isEnabled() {
+//        return false;
+//    }
 }

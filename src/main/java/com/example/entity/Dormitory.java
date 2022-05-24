@@ -72,4 +72,5 @@ public class Dormitory {
     public int hashCode() {
         return Objects.hash(SID, name, DID, sex);
     }
+
 }

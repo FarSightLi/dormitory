@@ -1,8 +1,6 @@
 package com.example.controller;
 
 import com.example.entity.Manager;
-import com.example.service.ManagerService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,18 +15,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/m")
 public class ManagerController {
-    @Autowired
-    private ManagerService managerService;
 
     @PostMapping("/login")
     private String login(Manager manager) {
-        managerService.login(manager);
+//        managerService.login(manager);
+//        SecurityUtil.login(manager.getId(),manager.getPwd(),authenticationManager);
         return "登录成功";
     }
 
     @PostMapping("/signUp")
     private String signUp(Manager manager, String pwdRe) {
-        managerService.signUp(manager, pwdRe);
+//        managerService.signUp(manager, pwdRe);
         return "注册成功";
     }
 }

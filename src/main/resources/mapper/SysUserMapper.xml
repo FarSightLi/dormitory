@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.SysUserMapper">
+    <resultMap type="com.example.entity.SysPermission" id="SysPermission">
+        <id column="id" property="id"/>
+        <result column="permission_code" property="permissionCode"/>
+        <result column="permission_name" property="permissionName"/>
+    </resultMap>
+
+    <select id="selectListByUser" resultMap="SysPermission">
+        SELECT p.*
+        FROM sys_user AS u
+                 LEFT JOIN sys_user_role_relation AS ur
+                           ON u.id = ur.user_id
+                 LEFT JOIN sys_role AS r
+                           ON r.id = ur.role_id
+                 LEFT JOIN sys_role_permission_relation AS rp
+                           ON r.id = rp.role_id
+                 LEFT JOIN sys_permission AS p
+                           ON p.id = rp.permission_id
+        WHERE u.id = #{userId}
+    </select>
+    <!--根据用户名查询用户-->
+    <select id="selectByName" resultType="com.example.entity.SysUser">
+        select *
+        from sys_user
+        where account = #{userName};
+    </select>
+
+    <update id="update" parameterType="com.example.entity.SysUser">
+        update sys_user
+        set last_login_time=#{lastLoginTime},
+            update_time=#{lastUpDateTime},
+            update_user=#{lastUpdateUser}
+        where id = #{id};
+    </update>
+
+    <select id="selectListByPath" resultMap="SysPermission">
+        select p.*
+        from sys_permission as p
+                 left join sys_request_path_permission_relation as ppr
+                           on p.id = ppr.url_id
+                 left join sys_request_path as rp
+                           on ppr.url_id = rp.id
+        where rp.url = #{requestUrl};
+    </select>
+</mapper>
