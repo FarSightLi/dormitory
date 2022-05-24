@@ -2,13 +2,11 @@ package com.example;
 
 import com.alibaba.excel.EasyExcel;
 import com.example.entity.Dormitory;
-import com.example.entity.Manager;
 import com.example.listener.DormitoryDataListener;
 import com.example.mapper.BuildingMapper;
 import com.example.mapper.DormitoryMapper;
 import com.example.mapper.SysUserMapper;
 import com.example.service.DormitoryService;
-import com.example.service.ManagerService;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,8 +36,6 @@ class DormitoryApplicationTests {
 
     @Autowired
     private DormitoryMapper dormitoryMapper;
-    @Autowired
-    private ManagerService managerService;
 
     @Test
     void contextLoads() throws SQLException {
@@ -58,13 +54,6 @@ class DormitoryApplicationTests {
         EasyExcel.read(fileName, Dormitory.class, new DormitoryDataListener(dormitoryService)).sheet().doRead();
     }
 
-    @Test
-    void signUp() {
-        Manager manager = new Manager();
-        manager.setId(666);
-        manager.setPwd("666");
-        managerService.signUp(manager, "666");
-    }
 
     @Test
     void test() {
