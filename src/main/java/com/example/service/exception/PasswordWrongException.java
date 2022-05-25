@@ -1,6 +1,12 @@
 package com.example.service.exception;
 
-//登陆时密码错误
+
+/**
+ * @ClassName: PasswordWrongException
+ * @Description: 密码错误
+ * @author: LongSheng Li
+ * @date: 2022/5/25 17:05
+ */
 public class PasswordWrongException extends ServiceException {
     public PasswordWrongException() {
         super();

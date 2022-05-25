@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,13 +25,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Autowired
     private SysUserMapper userMapper;
 
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if (username == null || "".equals(username)) {
+    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+        if (userName == null || "".equals(userName)) {
             throw new RuntimeException("用户不能为空");
         }
         //根据用户名查询用户
-        SysUser sysUser = userMapper.selectByName(username);
+        SysUser sysUser = userMapper.selectByName(userName);
         if (sysUser == null) {
             throw new RuntimeException("用户不存在");
         }
@@ -44,9 +48,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 grantedAuthorities.add(grantedAuthority);
             });
         }
-        return new User(sysUser.getAccount(), sysUser.getPassword(), sysUser.getEnabled(), sysUser.getAccountNonExpired(), sysUser.getCredentialsNonExpired(), sysUser.getAccountNonLocked(), grantedAuthorities);
+        return new User(sysUser.getAccount(), sysUser.getPassword(), sysUser.isEnabled(), sysUser.isAccountNonExpired(), sysUser.isCredentialsNonExpired(), sysUser.isAccountNonLocked(), grantedAuthorities);
     }
 
-    private class SysPermission {
-    }
 }

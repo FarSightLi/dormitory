@@ -56,4 +56,6 @@ public class TestController {
         dormitoryService.selectAll();
         return "success";
     }
+
+
 }

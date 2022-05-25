@@ -1,7 +1,10 @@
 package com.example.service.exception;
 
 /**
- * 用户名重复的异常
+ * @ClassName: UsernameNullException
+ * @Description: 用户名重复
+ * @author: LongSheng Li
+ * @date: 2022/5/25 17:05
  */
 public class UsernameDuplicateException extends ServiceException {
     public UsernameDuplicateException() {

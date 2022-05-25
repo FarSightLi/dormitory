@@ -25,5 +25,7 @@ public interface SysUserMapper {
     Integer update(SysUser user);
 
     List<SysPermission> selectListByPath(String requestUrl);
+
+    Integer insert(SysUser user);
 }
 

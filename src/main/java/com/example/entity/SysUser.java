@@ -24,12 +24,15 @@ public class SysUser {
     Collection<? extends GrantedAuthority> authorities;
     Date lastLoginTime;
     Date updateTime;
+    Date creatTime;
     Integer updateUser;
 
     public SysUser() {
     }
 
-    public SysUser(String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities) {
+    public SysUser(Integer id, String account, String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities, Date lastLoginTime, Date updateTime, Date creatTime, Integer updateUser) {
+        this.id = id;
+        this.account = account;
         this.username = username;
         this.password = password;
         this.enabled = enabled;
@@ -37,6 +40,18 @@ public class SysUser {
         this.credentialsNonExpired = credentialsNonExpired;
         this.accountNonLocked = accountNonLocked;
         this.authorities = authorities;
+        this.lastLoginTime = lastLoginTime;
+        this.updateTime = updateTime;
+        this.creatTime = creatTime;
+        this.updateUser = updateUser;
+    }
+
+    public Date getCreatTime() {
+        return creatTime;
+    }
+
+    public void setCreatTime(Date creatTime) {
+        this.creatTime = creatTime;
     }
 
     public Integer getId() {
@@ -71,7 +86,7 @@ public class SysUser {
         this.password = password;
     }
 
-    public boolean getEnabled() {
+    public boolean isEnabled() {
         return enabled;
     }
 
@@ -79,7 +94,7 @@ public class SysUser {
         this.enabled = enabled;
     }
 
-    public boolean getAccountNonExpired() {
+    public boolean isAccountNonExpired() {
         return accountNonExpired;
     }
 
@@ -87,7 +102,7 @@ public class SysUser {
         this.accountNonExpired = accountNonExpired;
     }
 
-    public boolean getCredentialsNonExpired() {
+    public boolean isCredentialsNonExpired() {
         return credentialsNonExpired;
     }
 
@@ -95,7 +110,7 @@ public class SysUser {
         this.credentialsNonExpired = credentialsNonExpired;
     }
 
-    public boolean getAccountNonLocked() {
+    public boolean isAccountNonLocked() {
         return accountNonLocked;
     }
 

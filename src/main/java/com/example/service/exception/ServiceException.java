@@ -1,5 +1,11 @@
 package com.example.service.exception;
 
+/**
+ * @ClassName: UsernameNullException
+ * @Description: 异常父类
+ * @author: LongSheng Li
+ * @date: 2022/5/25 17:05
+ */
 public class ServiceException extends RuntimeException {
 
     public ServiceException() {
