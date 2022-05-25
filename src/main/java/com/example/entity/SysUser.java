@@ -15,7 +15,7 @@ import java.util.Date;
 public class SysUser {
     Integer id;
     String account;
-    String username;
+    String userName;
     String password;
     boolean enabled;
     boolean accountNonExpired;
@@ -23,17 +23,18 @@ public class SysUser {
     boolean accountNonLocked;
     Collection<? extends GrantedAuthority> authorities;
     Date lastLoginTime;
-    Date updateTime;
+    Date lastUpdateTime;
     Date creatTime;
     Integer updateUser;
+    Integer createUser;
 
     public SysUser() {
     }
 
-    public SysUser(Integer id, String account, String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities, Date lastLoginTime, Date updateTime, Date creatTime, Integer updateUser) {
+    public SysUser(Integer id, String account, String userName, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired, boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities, Date lastLoginTime, Date updateTime, Date creatTime, Integer updateUser, Integer creatUser) {
         this.id = id;
         this.account = account;
-        this.username = username;
+        this.userName = userName;
         this.password = password;
         this.enabled = enabled;
         this.accountNonExpired = accountNonExpired;
@@ -41,9 +42,10 @@ public class SysUser {
         this.accountNonLocked = accountNonLocked;
         this.authorities = authorities;
         this.lastLoginTime = lastLoginTime;
-        this.updateTime = updateTime;
+        this.lastUpdateTime = updateTime;
         this.creatTime = creatTime;
         this.updateUser = updateUser;
+        this.createUser = creatUser;
     }
 
     public Date getCreatTime() {
@@ -70,24 +72,30 @@ public class SysUser {
         this.account = account;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
         return password;
     }
 
+
+    public String getUsername() {
+        return userName;
+    }
+
     public void setPassword(String password) {
         this.password = password;
     }
 
+
     public boolean isEnabled() {
-        return enabled;
+        return true;
     }
 
     public void setEnabled(boolean enabled) {
@@ -95,23 +103,25 @@ public class SysUser {
     }
 
     public boolean isAccountNonExpired() {
-        return accountNonExpired;
+        return true;
     }
 
     public void setAccountNonExpired(boolean accountNonExpired) {
         this.accountNonExpired = accountNonExpired;
     }
 
+
     public boolean isCredentialsNonExpired() {
-        return credentialsNonExpired;
+        return true;
     }
 
     public void setCredentialsNonExpired(boolean credentialsNonExpired) {
         this.credentialsNonExpired = credentialsNonExpired;
     }
 
+
     public boolean isAccountNonLocked() {
-        return accountNonLocked;
+        return true;
     }
 
     public void setAccountNonLocked(boolean accountNonLocked) {
@@ -134,12 +144,12 @@ public class SysUser {
         this.lastLoginTime = lastLoginTime;
     }
 
-    public Date getUpdateTime() {
-        return updateTime;
+    public Date getLastUpdateTime() {
+        return lastUpdateTime;
     }
 
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
+    public void setLastUpdateTime(Date lastUpdateTime) {
+        this.lastUpdateTime = lastUpdateTime;
     }
 
     public Integer getUpdateUser() {
@@ -148,6 +158,35 @@ public class SysUser {
 
     public void setUpdateUser(Integer updateUser) {
         this.updateUser = updateUser;
+    }
+
+    public Integer getCreateUser() {
+        return createUser;
+    }
+
+    public void setCreateUser(Integer createUser) {
+        this.createUser = createUser;
+    }
+
+
+    @Override
+    public String toString() {
+        return "SysUser{" +
+                "id=" + id +
+                ", account='" + account + '\'' +
+                ", userName='" + userName + '\'' +
+                ", password='" + password + '\'' +
+                ", enabled=" + enabled +
+                ", accountNonExpired=" + accountNonExpired +
+                ", credentialsNonExpired=" + credentialsNonExpired +
+                ", accountNonLocked=" + accountNonLocked +
+                ", authorities=" + authorities +
+                ", lastLoginTime=" + lastLoginTime +
+                ", updateTime=" + lastUpdateTime +
+                ", creatTime=" + creatTime +
+                ", updateUser=" + updateUser +
+                ", createUser=" + createUser +
+                '}';
     }
 }
 

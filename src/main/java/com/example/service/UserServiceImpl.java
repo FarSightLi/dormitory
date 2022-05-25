@@ -21,7 +21,7 @@ import java.util.Date;
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
-    private SysUserMapper userMapper;
+    private SysUserMapper sysUserMapper;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -32,9 +32,9 @@ public class UserServiceImpl implements UserService {
         if (userName == null || "".equals(userName)) {
             throw new UsernameNullException("用户名为空");
         }
-        Integer userId = userMapper.selectByName(userName).getId();
+        Integer count = sysUserMapper.nameNum(userName);
         //用户名已经存在
-        if (userId != null) {
+        if (count != 0) {
             throw new UsernameNotFoundException("用户名重复");
         }
         SysUser sysUser = new SysUser();
@@ -44,13 +44,15 @@ public class UserServiceImpl implements UserService {
         }
         //两次密码一致
         if (pwd1.equals(pwd2)) {
+            sysUser.setUserName(userName);
             sysUser.setAccount(userName);
             //密码加密
             sysUser.setPassword(passwordEncoder.encode(pwd1));
             sysUser.setCreatTime(new Date());
             sysUser.setLastLoginTime(new Date());
-            sysUser.setUpdateTime(new Date());
+            sysUser.setLastUpdateTime(new Date());
         }
-        userMapper.insert(sysUser);
+        sysUserMapper.insert(sysUser);
     }
+
 }

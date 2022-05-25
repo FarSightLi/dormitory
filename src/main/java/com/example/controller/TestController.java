@@ -1,7 +1,6 @@
 package com.example.controller;
 
 import com.alibaba.excel.EasyExcel;
-import com.example.listener.BuildingDataListener;
 import com.example.listener.DormitoryDataListener;
 import com.example.service.BuildingService;
 import com.example.service.DormitoryService;
@@ -43,19 +42,7 @@ public class TestController {
         return "ok";
     }
 
-    @Transactional
-    @PutMapping("uploadBuilding")
-    public String uploadBuilding(MultipartFile file) throws IOException {
-        EasyExcel.read(file.getInputStream(), com.example.entity.Building.class, new BuildingDataListener(buildingService)).sheet().doRead();
-        return "success";
-    }
 
-    @Transactional
-    @PostMapping("download")
-    public String download() {
-        dormitoryService.selectAll();
-        return "success";
-    }
 
 
 }

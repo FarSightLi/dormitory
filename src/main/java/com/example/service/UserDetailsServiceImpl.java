@@ -51,4 +51,5 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return new User(sysUser.getAccount(), sysUser.getPassword(), sysUser.isEnabled(), sysUser.isAccountNonExpired(), sysUser.isCredentialsNonExpired(), sysUser.isAccountNonLocked(), grantedAuthorities);
     }
 
+
 }

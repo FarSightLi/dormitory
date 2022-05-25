@@ -27,7 +27,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
                 .build();
     }
 
-    Contact contact = new Contact("李龙晟", "farsight@live.com", "1716498419@live.com");
+    Contact contact = new Contact("李龙晟", "farsight@live.com", "1716498419@qq.com");
 
     public ApiInfo apiInfo() {
         return new ApiInfo(

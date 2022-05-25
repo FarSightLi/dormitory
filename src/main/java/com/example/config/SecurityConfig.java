@@ -1,12 +1,13 @@
 package com.example.config;
 
 import com.example.service.UserDetailsServiceImpl;
-import com.example.service.handler.*;
+import com.example.service.handler.CustomizeAuthenticationFailureHandler;
+import com.example.service.handler.CustomizeAuthenticationSuccessHandler;
+import com.example.service.handler.CustomizeLogoutSuccessHandler;
 import com.example.util.CustomizeAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -14,7 +15,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 
 /**
  * @Author: Hutengfei
@@ -32,32 +32,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     CustomizeAuthenticationFailureHandler authenticationFailureHandler;
 
-//    //权限拒绝处理逻辑
-//    @Autowired
-//    CustomizeAccessDeniedHandler accessDeniedHandler;
-
     //匿名用户访问无权限资源时的异常
     @Autowired
     CustomizeAuthenticationEntryPoint authenticationEntryPoint;
-
-//    //会话失效(账号被挤下线)处理逻辑
-//    @Autowired
-//    CustomizeSessionInformationExpiredStrategy sessionInformationExpiredStrategy;
 
     //登出成功处理逻辑
     @Autowired
     CustomizeLogoutSuccessHandler logoutSuccessHandler;
 
-    //访问决策管理器
-    @Autowired
-    CustomizeAccessDecisionManager accessDecisionManager;
-
-    //实现权限拦截
-    @Autowired
-    CustomizeFilterInvocationSecurityMetadataSource securityMetadataSource;
-
-    @Autowired
-    private CustomizeAbstractSecurityInterceptor securityInterceptor;
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -80,14 +62,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable();
         http.authorizeRequests().
-                withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
-                    @Override
-                    public <O extends FilterSecurityInterceptor> O postProcess(O o) {
-                        o.setAccessDecisionManager(accessDecisionManager);//决策管理器
-                        o.setSecurityMetadataSource(securityMetadataSource);//安全元数据源
-                        return o;
-                    }
-                }).
+                antMatchers("/manager/**").anonymous().
+                antMatchers("/test/**").hasAuthority("all").
+                antMatchers("/dormitory/**").hasAuthority("all").
                 //登出
                         and().logout().
                 permitAll().//允许所有用户
@@ -99,10 +76,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 successHandler(authenticationSuccessHandler).//登录成功处理逻辑
                 failureHandler(authenticationFailureHandler).//登录失败处理逻辑
                 //异常处理(权限拒绝、登录失效等)
-                        and().exceptionHandling().
-//                accessDeniedHandler(accessDeniedHandler).//权限拒绝处理逻辑
-        authenticationEntryPoint(authenticationEntryPoint);//匿名用户访问无权限资源时的异常处理
-        http.addFilterBefore(securityInterceptor, FilterSecurityInterceptor.class);
+                        and().exceptionHandling();
+//        authenticationEntryPoint(authenticationEntryPoint);//匿名用户访问无权限资源时的异常处理
     }
 
     @Override
@@ -116,7 +91,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/js/**")
                 .antMatchers("/v2/api-docs", "/swagger-resources/configuration/ui",
                         "/swagger-resources", "/swagger-resources/configuration/security",
-                        "/swagger-ui.html", "/webjars/**")
-                .antMatchers("/manager/**");
+                        "/swagger-ui.html", "/webjars/**");
     }
 }
