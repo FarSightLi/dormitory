@@ -1,13 +1,52 @@
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <meta content="" name="description">
+    <meta content="" name="author">
+    <title>登录</title>
+    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" rel="stylesheet">
+    <link crossorigin="anonymous" href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet"/>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 </head>
 <body>
-<h1 class="title">欢迎登录</h1>
-<input placeholder="用户名" type="text">
-<input placeholder="密码" type="password">
-<input type="button" value="登录">
+<div class="container">
+    <form action="/login" class="form-signin" id="form-login" method="post">
+        <h2 class="form-signin-heading">请登录</h2>
+        <p>
+            <label class="sr-only" for="username">用户名</label>
+            <input autofocus class="form-control" id="username" name="username" placeholder="请输入用户名" required
+                   type="text">
+        </p>
+        <p>
+            <label class="sr-only" for="password">密码</label>
+            <input class="form-control" id="password" name="password" placeholder="请输入密码" required type="password">
+        </p>
+        <input class="btn btn-primary" id="btn-login" type="submit" value="登录"/>
+    </form>
+</div>
 </body>
+<!--<script type="text/javascript">-->
+<!--    $("#btn-login").click(function() {-->
+<!--        $.ajax({-->
+<!--            url: "/login",-->
+<!--            type: "post",-->
+<!--            data: $("#form-login").serialize(),-->
+<!--            dataType: "json",-->
+<!--            processData: false,-->
+<!--            contentType: false,-->
+<!--            success: function(re) {-->
+<!--                if (re.errorCode == 200) {-->
+<!--                    alert("注册成功！");-->
+<!--                    location.href = "/home.html";-->
+<!--                } else {-->
+<!--                    alert("注册失败！" + json.message);-->
+<!--                }-->
+<!--            }-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
 </html>

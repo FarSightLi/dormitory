@@ -1,10 +1,10 @@
 package com.example.service;
 
-import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.util.ListUtils;
 import com.example.DO.BuildingDO;
 import com.example.DO.DormitoryDO;
 import com.example.entity.Dormitory;
+import com.example.entity.DormitoryDetails;
 import com.example.mapper.BuildingMapper;
 import com.example.mapper.DormitoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,15 +129,7 @@ public class DormitoryServiceImpl implements DormitoryService {
     }
 
     @Override
-    public List<Dormitory> selectAll() {
-        String fileName = "C:\\Users\\骆灵上\\Desktop" + "宿舍名单" + System.currentTimeMillis() + ".xlsx";
-        EasyExcel.write(fileName, Dormitory.class)
-                .sheet("模板")
-                .doWrite(() -> {
-                    // 分页查询数据
-                    List<Dormitory> dormitories = dormitoryMapper.selectAll();
-                    return dormitories;
-                });
-        return null;
+    public List<DormitoryDetails> selectAll() {
+        return dormitoryMapper.selectAll();
     }
 }

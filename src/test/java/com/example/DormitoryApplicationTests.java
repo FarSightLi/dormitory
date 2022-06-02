@@ -2,6 +2,7 @@ package com.example;
 
 import com.alibaba.excel.EasyExcel;
 import com.example.entity.Dormitory;
+import com.example.entity.DormitoryDetails;
 import com.example.listener.DormitoryDataListener;
 import com.example.mapper.BuildingMapper;
 import com.example.mapper.DormitoryMapper;
@@ -44,7 +45,8 @@ class DormitoryApplicationTests {
 
     @Test
     void dataBase() {
-        buildingMapper.noPeopleDormitory("1");
+        List<DormitoryDetails> dormitories = dormitoryMapper.selectAll();
+        System.out.println(dormitories);
 
     }
 

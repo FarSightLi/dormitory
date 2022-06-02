@@ -2,6 +2,7 @@ package com.example.mapper;
 
 import com.example.DO.DormitoryDO;
 import com.example.entity.Dormitory;
+import com.example.entity.DormitoryDetails;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,6 +22,6 @@ public interface DormitoryMapper {
     //查询宿舍的现人数
     Integer capacityNow(Integer DID);
 
-    List<Dormitory> selectAll();
+    List<DormitoryDetails> selectAll();
 
 }

@@ -2,9 +2,53 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>宿舍管理</title>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <style>
+        #box {
+            margin-top: 200px;
+            margin-left: 500px;
+        }
+    </style>
 </head>
 <body>
-<a href="/dormitory/download">下载 </a>
+<div id="box">
+    <span>下载查看宿舍名单</span>
+    <div><a href="/dormitory/downloadFailedUsingJson">下载 </a></div>
+
+    <div>
+        <form action="/dormitory/upload" enctype="multipart/form-data" id="upload-form" method="post">
+            <span>选择学生名单</span>
+            　　　<input id="upload-new" name="file" type="file"/> <br/>
+            　　　<input id="new-btn" type="button" value="Upload"/>
+            <span>一键注销毕业学生</span>
+            <input id="upload-old" name="file" type="file"/> <br/>
+            　　　<input id="old-btn" type="button" value="Upload"/>
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $("#upload-btn").click(function () {
+        var data = new FormData($("#upload-form")[0]);
+        $.ajax({
+            url: "/dormitory/upload",
+            type: "post",
+            data: data,
+            dataType: "json",
+            processData: false,
+            contentType: false,
+            success: function (re) {
+                if (re.errorCode == 200) {
+                    alert("分配成功！");
+                    location.href = "/home.html";
+                } else {
+                    alert("失败！" + json.message);
+                }
+            }
+        });
+    });
+</script>
 </body>
 </html>

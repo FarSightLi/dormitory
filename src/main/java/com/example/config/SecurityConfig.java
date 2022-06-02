@@ -63,21 +63,27 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().and().csrf().disable();
         http.authorizeRequests().
                 antMatchers("/manager/**").anonymous().
-                antMatchers("/test/**").hasAuthority("all").
+                antMatchers("/test/**").anonymous().
                 antMatchers("/dormitory/**").hasAuthority("all").
+                antMatchers("/dormitory.html").hasAuthority("all").
                 //登出
                         and().logout().
                 permitAll().//允许所有用户
                 logoutSuccessHandler(logoutSuccessHandler).//登出成功处理逻辑
                 deleteCookies("JSESSIONID").//登出之后删除cookie
                 //登入
-                        and().formLogin().
-                permitAll().//允许所有用户
-                successHandler(authenticationSuccessHandler).//登录成功处理逻辑
-                failureHandler(authenticationFailureHandler).//登录失败处理逻辑
+//                        and().formLogin().
+//                permitAll().//允许所有用户
+//                successHandler(authenticationSuccessHandler).//登录成功处理逻辑
+//                failureHandler(authenticationFailureHandler).//登录失败处理逻辑
+        and().formLogin().
+                successHandler(authenticationSuccessHandler).
+                successForwardUrl("/r/toHome").
+                failureHandler(authenticationFailureHandler).
+                failureForwardUrl("/r/toFail").
                 //异常处理(权限拒绝、登录失效等)
                         and().exceptionHandling();
-//        authenticationEntryPoint(authenticationEntryPoint);//匿名用户访问无权限资源时的异常处理
+//                        authenticationEntryPoint(authenticationEntryPoint);//匿名用户访问无权限资源时的异常处理;
     }
 
     @Override

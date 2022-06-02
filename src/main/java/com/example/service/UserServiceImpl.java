@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
         }
         Integer count = sysUserMapper.nameNum(userName);
         //用户名已经存在
-        if (count != 0) {
+        if (count > 0) {
             throw new UsernameNotFoundException("用户名重复");
         }
         SysUser sysUser = new SysUser();

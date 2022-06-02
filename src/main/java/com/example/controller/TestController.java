@@ -1,15 +1,14 @@
 package com.example.controller;
 
-import com.alibaba.excel.EasyExcel;
-import com.example.listener.DormitoryDataListener;
 import com.example.service.BuildingService;
 import com.example.service.DormitoryService;
+import com.example.util.JsonResult;
+import com.example.util.ResultTool;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.IOException;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
@@ -22,16 +21,14 @@ public class TestController {
     private BuildingService buildingService;
 
     @GetMapping("/h1")
-    private String hello() {
-        return "hello";
+    private JsonResult hello() {
+        return ResultTool.success();
     }
 
-    @Transactional
-    @PutMapping("upload")
-    @ResponseBody
-    public String upload(MultipartFile file) throws IOException {
-        EasyExcel.read(file.getInputStream(), com.example.entity.Dormitory.class, new DormitoryDataListener(dormitoryService)).sheet().doRead();
-        return "success";
+    @GetMapping("/h2")
+    private JsonResult hello2(String userName, String name) {
+        System.out.println(userName + name);
+        return ResultTool.success();
     }
 
 

@@ -1,5 +1,7 @@
 package com.example.entity;
 
+import com.alibaba.excel.annotation.ExcelProperty;
+
 import java.util.Objects;
 
 /**
@@ -10,12 +12,19 @@ import java.util.Objects;
  */
 
 public class Building {
+    @ExcelProperty("宿舍编号")
     private Integer DID;
-    private String dormitoryName;
+    @ExcelProperty("宿舍名字")
+    private Integer dormitoryName;
+    @ExcelProperty("楼栋")
     private String buildingName;
+    @ExcelProperty("性别")
     private String sex;
+    @ExcelProperty("总容量")
     private Integer capacity;
+    @ExcelProperty("现人数")
     private Integer capacityNow;
+    @ExcelProperty("状态码")
     private Integer code;
 
     public Integer getDID() {
@@ -26,11 +35,11 @@ public class Building {
         this.DID = DID;
     }
 
-    public String getDormitoryName() {
+    public Integer getDormitoryName() {
         return dormitoryName;
     }
 
-    public void setDormitoryName(String dormitoryName) {
+    public void setDormitoryName(Integer dormitoryName) {
         this.dormitoryName = dormitoryName;
     }
 
