@@ -10,6 +10,14 @@
             margin-top: 200px;
             margin-left: 500px;
         }
+
+        #little-box1 {
+            margin: 80px;
+        }
+
+        #little-box2 {
+            margin: 80px;
+        }
     </style>
 </head>
 <body>
@@ -19,12 +27,20 @@
 
     <div>
         <form action="/dormitory/upload" enctype="multipart/form-data" id="upload-form" method="post">
-            <span>选择学生名单</span>
-            　　　<input id="upload-new" name="file" type="file"/> <br/>
-            　　　<input id="new-btn" type="button" value="Upload"/>
-            <span>一键注销毕业学生</span>
-            <input id="upload-old" name="file" type="file"/> <br/>
-            　　　<input id="old-btn" type="button" value="Upload"/>
+            <div id="little-box1">
+                <span>选择新增学生名单</span>
+                <div>
+                    　　　<input id="upload-new" name="file" type="file"/> <br/>
+                    　　　<input id="new-btn" type="button" value="Upload"/>
+                </div>
+            </div>
+            <div id="little-box2">
+                <span>一键注销毕业学生</span>
+                <div>
+                    <input id="upload-old" name="file" type="file"/> <br/>
+                    <input id="old-btn" type="button" value="Upload"/>
+                </div>
+            </div>
         </form>
     </div>
 </div>
