@@ -5,17 +5,21 @@
 
 <mapper namespace="com.example.mapper.DormitoryMapper">
 <resultMap id="dormitoryDetails" type="com.example.entity.DormitoryDetails">
-    <result property="studentName" column="name" />
+    <result property="studentName" column="name"/>
     <result property="dormitoryName" column="dormitory_name"/>
     <result property="buildingName" column="building_name"/>
 </resultMap>
+    <resultMap id="dormitoryDO" type="com.example.DO.DormitoryDO">
+        <result column="did" property="DID"/>
+        <result column="sid" property="SID"/>
+    </resultMap>
 
 
     <insert id="insert" parameterType="java.util.List">
-        insert into dormitory (sid,name,did,sex)
+        insert into dormitory (sid,name,did,sex,address)
         values
         <foreach collection="list" item="item" index="index" separator=",">
-            (#{item.SID},#{item.name},#{item.DID},#{item.sex})
+            (#{item.SID},#{item.name},#{item.DID},#{item.sex},#{item.address})
         </foreach>
         ;
     </insert>
@@ -48,10 +52,25 @@
     </select>
 
     <select id="selectAll" resultMap="dormitoryDetails">
-        SELECT d.`sid`,d.`name` , b.`dormitory_name` , b.`building_name`
+        SELECT d.`sid`, d.`name`, b.`dormitory_name`, b.`building_name`
         FROM dormitory AS d
                  LEFT JOIN building AS b
-                           ON d.`did`=b.`did`;
+                           ON d.`did` = b.`did`;
+    </select>
+
+    <delete id="deleteStudent" parameterType="java.util.List">
+        delete from dormitory where SID in
+        <foreach collection="list" item="item" open="(" close=");" separator=",">
+             #{item.SID}
+        </foreach>
+    </delete>
+
+    <select id="findDidBySid" parameterType="java.util.List" resultMap="dormitoryDO">
+        select sid,did from dormitory
+        <foreach collection="list" item="item" open="where sid in(" close=");" separator=",">
+             #{item.SID}
+        </foreach>
+
     </select>
 
 </mapper>

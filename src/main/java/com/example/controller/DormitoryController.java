@@ -5,7 +5,8 @@ import com.alibaba.excel.util.MapUtils;
 import com.alibaba.fastjson.JSON;
 import com.example.entity.DormitoryDetails;
 import com.example.listener.BuildingDataListener;
-import com.example.listener.DormitoryDataListener;
+import com.example.listener.DormitoryAddDataListener;
+import com.example.listener.DormitoryDeleteDataListener;
 import com.example.service.BuildingService;
 import com.example.service.DormitoryService;
 import com.example.util.JsonResult;
@@ -37,7 +38,7 @@ public class DormitoryController {
     private BuildingService buildingService;
 
     @Transactional
-    @PutMapping("uploadBuilding")
+    @PostMapping("uploadBuilding")
     public JsonResult uploadBuilding(MultipartFile file) throws IOException {
         EasyExcel.read(file.getInputStream(), com.example.entity.Building.class, new BuildingDataListener(buildingService)).sheet().doRead();
         return ResultTool.success();
@@ -51,11 +52,10 @@ public class DormitoryController {
     }
 
     @Transactional
-    @PostMapping("upload")
+    @PostMapping("uploadNew")
     @ResponseBody
     public JsonResult upload(@RequestParam("file") MultipartFile file) throws IOException {
-        System.out.println(file);
-        EasyExcel.read(file.getInputStream(), com.example.entity.Dormitory.class, new DormitoryDataListener(dormitoryService)).sheet().doRead();
+        EasyExcel.read(file.getInputStream(), com.example.entity.Dormitory.class, new DormitoryAddDataListener(dormitoryService)).sheet().doRead();
         return ResultTool.success();
     }
 
@@ -85,5 +85,16 @@ public class DormitoryController {
             map.put("message", "下载文件失败" + e.getMessage());
             response.getWriter().println(JSON.toJSONString(map));
         }
+    }
+
+    @Transactional
+    @PostMapping("uploadOld")
+    public JsonResult deleteOld(@RequestParam("file") MultipartFile file) throws IOException {
+//        try {
+        EasyExcel.read(file.getInputStream(), com.example.DO.DormitoryDO.class, new DormitoryDeleteDataListener(dormitoryService)).sheet().doRead();
+        return ResultTool.success();
+//        }catch (Exception e){
+//            return ResultTool.fail();
+//        }
     }
 }

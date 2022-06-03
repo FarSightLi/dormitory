@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 // 有个很重要的点 DemoDataListener 不能被spring管理，要每次读取excel都要new,然后里面用到spring可以构造方法传进去
-public class DormitoryDataListener extends AnalysisEventListener<Dormitory> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DormitoryDataListener.class);
+public class DormitoryAddDataListener extends AnalysisEventListener<Dormitory> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DormitoryAddDataListener.class);
     /**
      * 每隔5条存储数据库，实际使用中可以3000条，然后清理list ，方便内存回收
      */
@@ -33,7 +33,7 @@ public class DormitoryDataListener extends AnalysisEventListener<Dormitory> {
      *
      * @param dormitoryService
      */
-    public DormitoryDataListener(DormitoryService dormitoryService) {
+    public DormitoryAddDataListener(DormitoryService dormitoryService) {
         this.dormitoryService = dormitoryService;
     }
 
@@ -72,7 +72,7 @@ public class DormitoryDataListener extends AnalysisEventListener<Dormitory> {
      */
     private void saveData() {
         LOGGER.info("{}条数据，开始存储数据库！", cachedDataList.size());
-        dormitoryService.addStudent(cachedDataList);
+        dormitoryService.addStudents(cachedDataList);
         LOGGER.info("存储数据库成功！");
     }
 

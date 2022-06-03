@@ -18,6 +18,10 @@
         #little-box2 {
             margin: 80px;
         }
+
+        #little-box3 {
+            margin: 80px;
+        }
     </style>
 </head>
 <body>
@@ -26,30 +30,44 @@
     <div><a href="/dormitory/downloadFailedUsingJson">下载 </a></div>
 
     <div>
-        <form action="/dormitory/upload" enctype="multipart/form-data" id="upload-form" method="post">
+        <form action="/dormitory/uploadNew" enctype="multipart/form-data" id="upload-new-form" method="post">
             <div id="little-box1">
                 <span>选择新增学生名单</span>
                 <div>
                     　　　<input id="upload-new" name="file" type="file"/> <br/>
-                    　　　<input id="new-btn" type="button" value="Upload"/>
-                </div>
-            </div>
-            <div id="little-box2">
-                <span>一键注销毕业学生</span>
-                <div>
-                    <input id="upload-old" name="file" type="file"/> <br/>
-                    <input id="old-btn" type="button" value="Upload"/>
+                    　　　<input id="new-btn" type="button" value="上传新增名单"/>
                 </div>
             </div>
         </form>
     </div>
+    <div id="little-box2">
+        <span>一键注销毕业学生</span>
+        <div>
+            <form action="dormitory/uploadOld" enctype="multipart/form-data" id="upload-old-form" method="post">
+                <input id="upload-old" name="file" type="file"/> <br/>
+                <input id="old-btn" type="button" value="上传毕业学生名单"/>
+            </form>
+
+        </div>
+    </div>
+    <div id="little-box3">
+        <span>上传宿舍名单</span>
+        <div>
+            <form action="dormitory/uploadBuilding" enctype="multipart/form-data" id="upload-building-form"
+                  method="post">
+                <input id="upload-building" name="file" type="file"/> <br/>
+                <input id="building-btn" type="button" value="上传宿舍名单"/>
+            </form>
+
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">
-    $("#upload-btn").click(function () {
-        var data = new FormData($("#upload-form")[0]);
+    $("#new-btn").click(function () {
+        var data = new FormData($("#upload-new-form")[0]);
         $.ajax({
-            url: "/dormitory/upload",
+            url: "/dormitory/uploadNew",
             type: "post",
             data: data,
             dataType: "json",
@@ -60,7 +78,45 @@
                     alert("分配成功！");
                     location.href = "/home.html";
                 } else {
-                    alert("失败！" + json.message);
+                    alert("失败！" + re.message);
+                }
+            }
+        });
+    });
+    $("#old-btn").click(function () {
+        var data = new FormData($("#upload-old-form")[0]);
+        $.ajax({
+            url: "/dormitory/uploadOld",
+            type: "post",
+            data: data,
+            dataType: "json",
+            processData: false,
+            contentType: false,
+            success: function (re) {
+                if (re.errorCode == 200) {
+                    alert("分配成功！");
+                    location.href = "/home.html";
+                } else {
+                    alert("失败！" + re.message);
+                }
+            }
+        });
+    });
+    $("#building-btn").click(function () {
+        var data = new FormData($("#upload-building-form")[0]);
+        $.ajax({
+            url: "/dormitory/uploadBuilding",
+            type: "post",
+            data: data,
+            dataType: "json",
+            processData: false,
+            contentType: false,
+            success: function (re) {
+                if (re.errorCode == 200) {
+                    alert("分配成功！");
+                    location.href = "/home.html";
+                } else {
+                    alert("失败！" + re.message);
                 }
             }
         });

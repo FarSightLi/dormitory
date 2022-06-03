@@ -24,4 +24,8 @@ public interface DormitoryMapper {
 
     List<DormitoryDetails> selectAll();
 
+    Integer deleteStudent(List<DormitoryDO> dormitories);
+
+    List<DormitoryDO> findDidBySid(List<DormitoryDO> dormitoryDOList);
+
 }

@@ -3,7 +3,7 @@ package com.example;
 import com.alibaba.excel.EasyExcel;
 import com.example.entity.Dormitory;
 import com.example.entity.DormitoryDetails;
-import com.example.listener.DormitoryDataListener;
+import com.example.listener.DormitoryAddDataListener;
 import com.example.mapper.BuildingMapper;
 import com.example.mapper.DormitoryMapper;
 import com.example.mapper.SysUserMapper;
@@ -53,7 +53,7 @@ class DormitoryApplicationTests {
     @Test
     void excel() {
         String fileName = "C:\\Users\\骆灵上\\Desktop\\Dormitory.xlsx";
-        EasyExcel.read(fileName, Dormitory.class, new DormitoryDataListener(dormitoryService)).sheet().doRead();
+        EasyExcel.read(fileName, Dormitory.class, new DormitoryAddDataListener(dormitoryService)).sheet().doRead();
     }
 
 

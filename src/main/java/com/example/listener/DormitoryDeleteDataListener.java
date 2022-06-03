@@ -4,23 +4,17 @@ import com.alibaba.excel.context.AnalysisContext;
 import com.alibaba.excel.event.AnalysisEventListener;
 import com.alibaba.excel.util.ListUtils;
 import com.alibaba.fastjson.JSON;
-import com.example.entity.Building;
-import com.example.service.BuildingService;
+import com.example.DO.DormitoryDO;
+import com.example.service.DormitoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-/**
- * @ClassName: BuildingDataListener
- * @Description: 修改building表的监听器
- * @author: LongSheng Li
- * @date: 2022/5/1 19:38
- */
-
-public class BuildingDataListener extends AnalysisEventListener<Building> {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DormitoryAddDataListener.class);
+// 有个很重要的点 DemoDataListener 不能被spring管理，要每次读取excel都要new,然后里面用到spring可以构造方法传进去
+public class DormitoryDeleteDataListener extends AnalysisEventListener<DormitoryDO> {
+    private static final Logger LOGGER = LoggerFactory.getLogger(DormitoryDeleteDataListener.class);
     /**
      * 每隔5条存储数据库，实际使用中可以3000条，然后清理list ，方便内存回收
      */
@@ -28,19 +22,19 @@ public class BuildingDataListener extends AnalysisEventListener<Building> {
     /**
      * 缓存的数据
      */
-    private List<Building> cachedDataList = ListUtils.newArrayListWithExpectedSize(BATCH_COUNT);
+    private List<DormitoryDO> cachedDataList = ListUtils.newArrayListWithExpectedSize(BATCH_COUNT);
 
 
     @Autowired
-    private BuildingService buildingService;
+    private DormitoryService dormitoryService;
 
     /**
      * 如果使用了spring,请使用这个构造方法。每次创建Listener的时候需要把spring管理的类传进来
      *
-     * @param buildingService
+     * @param dormitoryService
      */
-    public BuildingDataListener(BuildingService buildingService) {
-        this.buildingService = buildingService;
+    public DormitoryDeleteDataListener(DormitoryService dormitoryService) {
+        this.dormitoryService = dormitoryService;
     }
 
     /**
@@ -50,12 +44,12 @@ public class BuildingDataListener extends AnalysisEventListener<Building> {
      * @param context
      */
     @Override
-    public void invoke(Building data, AnalysisContext context) {
+    public void invoke(DormitoryDO data, AnalysisContext context) {
         LOGGER.info("解析到一条数据:{}", JSON.toJSONString(data));
         cachedDataList.add(data);
         // 达到BATCH_COUNT了，需要去存储一次数据库，防止数据几万条数据在内存，容易OOM
         if (cachedDataList.size() >= BATCH_COUNT) {
-            saveData();
+            deleteData();
             // 存储完成清理 list
             cachedDataList.clear();
         }
@@ -69,17 +63,18 @@ public class BuildingDataListener extends AnalysisEventListener<Building> {
     @Override
     public void doAfterAllAnalysed(AnalysisContext context) {
         // 这里也要保存数据，确保最后遗留的数据也存储到数据库
-        saveData();
+        deleteData();
         LOGGER.info("所有数据解析完成！");
     }
 
     /**
      * 加上存储数据库
      */
-    private void saveData() {
-        LOGGER.info("{}条数据，开始存储数据库！", cachedDataList.size());
-        buildingService.addBuilding(cachedDataList);
-        LOGGER.info("存储数据库成功！");
+    private void deleteData() {
+        LOGGER.info("{}条数据，开始删除数据库！", cachedDataList.size());
+        dormitoryService.deleteStudents(cachedDataList);
+        LOGGER.info("删除数据库成功！");
     }
+
 
 }

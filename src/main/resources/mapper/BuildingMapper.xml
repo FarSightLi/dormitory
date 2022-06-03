@@ -22,11 +22,16 @@
     </update>
 
     <insert id="addNew" parameterType="java.util.List">
-        insert into building (did,domitory_name,build_name,sex,capacity,capacity_now,code) values
+        insert into building (did,dormitory_name,building_name,sex,capacity,capacity_now,code) values
         <foreach collection="list" item="item" separator=",">
             (#{item.DID},#{item.dormitoryName},#{item.buildingName},#{item.sex},#{item.capacity},#{item.capacityNow},#{item.code})
         </foreach>
     </insert>
+
+    <select id="findAll" parameterType="java.util.List" resultMap="BuildingDO">
+        select *
+        from building;
+    </select>
 
 
 </mapper>

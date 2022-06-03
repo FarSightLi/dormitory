@@ -1,5 +1,7 @@
 package com.example.entity;
 
+import com.alibaba.excel.annotation.ExcelProperty;
+
 /**
  * @ClassName: dormitoryDetails
  * @Description:
@@ -8,9 +10,13 @@ package com.example.entity;
  */
 
 public class DormitoryDetails {
+    @ExcelProperty("学号")
     Integer sid;
+    @ExcelProperty("姓名")
     String studentName;
+    @ExcelProperty("宿舍名字")
     Integer dormitoryName;
+    @ExcelProperty("楼栋")
     String buildingName;
 
     public Integer getSid() {

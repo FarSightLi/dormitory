@@ -16,6 +16,8 @@ public class Dormitory {
     private Integer DID;
     @ExcelProperty("性别")
     private String sex;
+    @ExcelProperty("籍贯")
+    private String address;
 
     public Integer getSID() {
         return SID;
@@ -48,6 +50,14 @@ public class Dormitory {
 
     public void setSex(String sex) {
         this.sex = sex;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     @Override

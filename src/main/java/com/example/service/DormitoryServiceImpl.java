@@ -10,6 +10,8 @@ import com.example.mapper.DormitoryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -43,13 +45,15 @@ public class DormitoryServiceImpl implements DormitoryService {
      */
     private List<Dormitory> cachedAllList = ListUtils.newArrayListWithExpectedSize(BATCH_COUNT);
 
-    private List<Dormitory> dealDormitory(String sex, List<Dormitory> dormitoryList) {
+    private void dealDormitory(String sex, List<Dormitory> dormitoryList) {
         //用于在dormitoryList里寻找的索引
         Integer studentsNum = 0;
         //包含了空宿舍的DID，现人数
         List<BuildingDO> dormitory = buildingMapper.noPeopleDormitory(sex);
         //将要储存的BuildingDO
-        List<BuildingDO> buildingDOS = ListUtils.newArrayListWithExpectedSize(BATCH_COUNT);
+//        List<BuildingDO> buildingDOS = ListUtils.newArrayListWithExpectedSize(BATCH_COUNT);
+        //TODO 要解决缓存的问题
+        List<BuildingDO> buildingDOS = new ArrayList<>();
         //将要储存的Dormitory
         List<Dormitory> dormitories = ListUtils.newArrayListWithExpectedSize(BATCH_COUNT);
         for (BuildingDO buildingDO : dormitory) {
@@ -58,6 +62,10 @@ public class DormitoryServiceImpl implements DormitoryService {
             Integer capacityNow = buildingDO.getCapacityNow();
             //当该宿舍人未满时，将该DID依次赋给学生
             for (int i = 1; i <= buildingDO.getCapacity() - buildingDO.getCapacityNow(); i++) {
+                //防止出现某一性别的列表为空
+                if (dormitoryList.size() == 0) {
+                    break;
+                }
                 Dormitory dormitory1 = dormitoryList.get(studentsNum);
                 dormitories.add(dormitory1.setDID(DID));
                 studentsNum++;
@@ -73,9 +81,13 @@ public class DormitoryServiceImpl implements DormitoryService {
                 break;
             }
         }
-        dormitoryMapper.insert(dormitories);
-        buildingMapper.updateNewInfo(buildingDOS);
-        return null;
+        //防止出现某一性别的列表为空
+        if (dormitories.size() != 0) {
+            dormitoryMapper.insert(dormitories);
+            buildingMapper.updateNewInfo(buildingDOS);
+        }
+
+
     }
 
     private void dealMenDormitory(List<Dormitory> dormitoryList) {
@@ -122,7 +134,7 @@ public class DormitoryServiceImpl implements DormitoryService {
     }
 
     @Override
-    public void addStudent(List<Dormitory> dormitoryList) {
+    public void addStudents(List<Dormitory> dormitoryList) {
         dealMenDormitory(dormitoryList);
         dealWomenDormitory(dormitoryList);
 
@@ -131,5 +143,44 @@ public class DormitoryServiceImpl implements DormitoryService {
     @Override
     public List<DormitoryDetails> selectAll() {
         return dormitoryMapper.selectAll();
+    }
+
+    @Override
+    public void deleteStudents(List<DormitoryDO> dormitoryList) {
+        List<BuildingDO> updateList = getUpdateList(dormitoryList);
+        buildingMapper.updateNewInfo(updateList);
+        dormitoryMapper.deleteStudent(dormitoryList);
+    }
+
+    private List<BuildingDO> getUpdateList(List<DormitoryDO> dormitoryList) {
+        ArrayList<BuildingDO> allBuildingDO = buildingMapper.findAll();
+        //每个毕业学生did和sid的列表
+        dormitoryList = dormitoryMapper.findDidBySid(dormitoryList);
+        //所有did的列表
+        List<Integer> DIDList = new ArrayList<>();
+        System.out.println(dormitoryList);
+        for (DormitoryDO dormitoryDO : dormitoryList) {
+            DIDList.add(dormitoryDO.getDID());
+        }
+        System.out.println(DIDList);
+        //需要进行更新的building列表
+        List<BuildingDO> buildingDOList = ListUtils.newArrayListWithExpectedSize(BATCH_COUNT);
+        for (BuildingDO buildingDO : allBuildingDO) {
+            //某宿舍走了多少人
+            Integer capacity = Collections.frequency(DIDList, buildingDO.getDID());
+            //说明该宿舍没有少人
+            if (capacity == 0) {
+                continue;
+            }
+            System.out.println(capacity);
+            //新的building对象，重新赋容量值
+            BuildingDO buildingDONew = new BuildingDO();
+            buildingDONew.setDID(buildingDO.getDID());
+            buildingDONew.setCapacityNow(buildingDO.getCapacityNow() - capacity);
+            buildingDONew.setCapacity(buildingDO.getCapacity());
+            buildingDOList.add(buildingDONew);
+        }
+        System.out.println(buildingDOList);
+        return buildingDOList;
     }
 }

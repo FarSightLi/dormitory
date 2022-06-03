@@ -12,6 +12,7 @@ import java.util.Date;
  * @date: 2022/5/22 19:55
  */
 
+//TODO 返回的布尔值应该加以根据数据库的值判断，否则会有安全隐患
 public class SysUser {
     Integer id;
     String account;
