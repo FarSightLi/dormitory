@@ -4,11 +4,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.example.mapper.DormitoryMapper">
-<resultMap id="dormitoryDetails" type="com.example.entity.DormitoryDetails">
-    <result property="studentName" column="name"/>
-    <result property="dormitoryName" column="dormitory_name"/>
-    <result property="buildingName" column="building_name"/>
-</resultMap>
+    <resultMap id="dormitoryDetails" type="com.example.entity.DormitoryDetails">
+        <result property="studentName" column="name"/>
+        <result property="dormitoryName" column="dormitory_name"/>
+        <result property="buildingName" column="building_name"/>
+    </resultMap>
     <resultMap id="dormitoryDO" type="com.example.DO.DormitoryDO">
         <result column="did" property="DID"/>
         <result column="sid" property="SID"/>
@@ -61,14 +61,14 @@
     <delete id="deleteStudent" parameterType="java.util.List">
         delete from dormitory where SID in
         <foreach collection="list" item="item" open="(" close=");" separator=",">
-             #{item.SID}
+            #{item.SID}
         </foreach>
     </delete>
 
     <select id="findDidBySid" parameterType="java.util.List" resultMap="dormitoryDO">
         select sid,did from dormitory
         <foreach collection="list" item="item" open="where sid in(" close=");" separator=",">
-             #{item.SID}
+            #{item.SID}
         </foreach>
 
     </select>

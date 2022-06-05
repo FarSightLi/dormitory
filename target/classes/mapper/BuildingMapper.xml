@@ -29,9 +29,9 @@
     </insert>
 
     <select id="findAll" parameterType="java.util.List" resultMap="BuildingDO">
-        select * from building;
+        select *
+        from building;
     </select>
-
 
 
 </mapper>

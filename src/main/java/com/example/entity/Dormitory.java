@@ -61,26 +61,26 @@ public class Dormitory {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Dormitory dormitory = (Dormitory) o;
+        return Objects.equals(SID, dormitory.SID) && Objects.equals(name, dormitory.name) && Objects.equals(DID, dormitory.DID) && Objects.equals(sex, dormitory.sex) && Objects.equals(address, dormitory.address);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(SID, name, DID, sex, address);
+    }
+
+    @Override
     public String toString() {
         return "Dormitory{" +
                 "SID=" + SID +
                 ", name='" + name + '\'' +
                 ", DID=" + DID +
                 ", sex='" + sex + '\'' +
+                ", address='" + address + '\'' +
                 '}';
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Dormitory dormitory = (Dormitory) o;
-        return SID.equals(dormitory.SID) && name.equals(dormitory.name) && DID.equals(dormitory.DID) && sex.equals(dormitory.sex);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(SID, name, DID, sex);
-    }
-
 }
