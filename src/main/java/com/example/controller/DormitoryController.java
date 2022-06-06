@@ -55,6 +55,7 @@ public class DormitoryController {
     @PostMapping("uploadNew")
     @ResponseBody
     public JsonResult upload(@RequestParam("file") MultipartFile file) throws IOException {
+
         EasyExcel.read(file.getInputStream(), com.example.entity.Dormitory.class, new DormitoryAddDataListener(dormitoryService)).sheet().doRead();
         return ResultTool.success();
     }
@@ -68,6 +69,7 @@ public class DormitoryController {
     public void downloadFailedUsingJson(HttpServletResponse response) throws IOException {
         // 这里注意 有同学反应使用swagger 会导致各种问题，请直接用浏览器或者用postman
         try {
+
             response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
             response.setCharacterEncoding("utf-8");
             String fileName = URLEncoder.encode("宿舍名单" + System.currentTimeMillis(), "UTF-8").replaceAll("\\+", "%20");
@@ -90,11 +92,7 @@ public class DormitoryController {
     @Transactional
     @PostMapping("uploadOld")
     public JsonResult deleteOld(@RequestParam("file") MultipartFile file) throws IOException {
-//        try {
         EasyExcel.read(file.getInputStream(), com.example.DO.DormitoryDO.class, new DormitoryDeleteDataListener(dormitoryService)).sheet().doRead();
         return ResultTool.success();
-//        }catch (Exception e){
-//            return ResultTool.fail();
-//        }
     }
 }

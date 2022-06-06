@@ -6,6 +6,7 @@ import com.example.entity.Dormitory;
 import com.example.entity.DormitoryDetails;
 import com.example.listener.BuildingDataListener;
 import com.example.listener.DormitoryAddDataListener;
+import com.example.listener.DormitoryDeleteDataListener;
 import com.example.mapper.BuildingMapper;
 import com.example.mapper.DormitoryMapper;
 import com.example.mapper.SysUserMapper;
@@ -58,14 +59,39 @@ class DormitoryApplicationTests {
 
     @Test
     void excel() {
-        String fileName = "C:\\Users\\骆灵上\\Desktop\\笔记\\Dormitory.xlsx";
+        String fileName = "C:\\Users\\骆灵上\\Desktop\\笔记\\Dormitory大容量测试.xlsx";
         EasyExcel.read(fileName, com.example.entity.Dormitory.class, new DormitoryAddDataListener(dormitoryService)).sheet().doRead();
     }
 
     @Test
+    void excel1() {
+        String fileName = "C:\\Users\\骆灵上\\Desktop\\笔记\\Dormitory大容量测试1.xlsx";
+        EasyExcel.read(fileName, com.example.entity.Dormitory.class, new DormitoryAddDataListener(dormitoryService)).sheet().doRead();
+    }
+
+    @Test
+    void excel2() {
+        String fileName = "C:\\Users\\骆灵上\\Desktop\\笔记\\Dormitory小容量.xlsx";
+        EasyExcel.read(fileName, com.example.entity.Dormitory.class, new DormitoryAddDataListener(dormitoryService)).sheet().doRead();
+    }
+
+    @Test
+    void excel3() {
+        String fileName = "C:\\Users\\骆灵上\\Desktop\\笔记\\test.xlsx";
+        EasyExcel.read(fileName, com.example.entity.Dormitory.class, new DormitoryAddDataListener(dormitoryService)).sheet().doRead();
+    }
+
+
+    @Test
     void updateBuilding() {
-        String fileName = "C:\\Users\\骆灵上\\Desktop\\笔记\\Building.xlsx";
+        String fileName = "C:\\Users\\骆灵上\\Desktop\\笔记\\Building大容量测试.xlsx";
         EasyExcel.read(fileName, com.example.entity.Building.class, new BuildingDataListener(buildingService)).sheet().doRead();
+    }
+
+    @Test
+    void deleteStudent() {
+        String fileName = "C:\\Users\\骆灵上\\Desktop\\笔记\\毕业学生大容量测试.xlsx";
+        EasyExcel.read(fileName, com.example.DO.DormitoryDO.class, new DormitoryDeleteDataListener(dormitoryService)).sheet().doRead();
     }
 
     @Test

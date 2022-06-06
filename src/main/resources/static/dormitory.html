@@ -26,8 +26,14 @@
 </head>
 <body>
 <div id="box">
-    <span>下载查看宿舍名单</span>
-    <div><a href="/dormitory/downloadFailedUsingJson">下载 </a></div>
+    <span>下载查看学生名单（按学号排序）</span>
+    <div>
+        <form action="/dormitory/downloadFailedUsingJson">
+            <input name="order" type="radio" value="SID"/> 按学号顺序
+            <input name="order" type="radio" value="DID/> 按宿舍顺序
+            <input value=" 下载" type="submit">
+        </form>
+    </div>
 
     <div>
         <form action="/dormitory/uploadNew" enctype="multipart/form-data" id="upload-new-form" method="post">

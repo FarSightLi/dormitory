@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface BuildingMapper {
     //未满宿舍did
-    List<BuildingDO> noPeopleDormitory(String sex);
+    List<BuildingDO> noPeopleDormitory(String sex, Integer count);
 
     Integer updateNewInfo(List<BuildingDO> buildingDOList);
 

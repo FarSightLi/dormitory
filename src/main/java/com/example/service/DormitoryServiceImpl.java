@@ -49,11 +49,9 @@ public class DormitoryServiceImpl implements DormitoryService {
         //用于在dormitoryList里寻找的索引
         Integer studentsIndex = 0;
         //包含了空宿舍的DID，现人数
-        List<BuildingDO> buildingDOList = buildingMapper.noPeopleDormitory(sex);
+        List<BuildingDO> buildingDOList = buildingMapper.noPeopleDormitory(sex, BATCH_COUNT);
         //将要储存的BuildingDO
-//        List<BuildingDO> buildingDOS = ListUtils.newArrayListWithExpectedSize(BATCH_COUNT);
-        //TODO 要解决缓存的问题
-//        List<BuildingDO> buildingDOS = new ArrayList<>();
+        List<BuildingDO> buildingDOs = ListUtils.newArrayListWithExpectedSize(BATCH_COUNT);
         //将要储存的Dormitory
         List<Dormitory> dormitories = ListUtils.newArrayListWithExpectedSize(BATCH_COUNT);
         //籍贯的列表
@@ -92,7 +90,6 @@ public class DormitoryServiceImpl implements DormitoryService {
                             lessIndex.add(index);
                             lessIndexCache.add(index);
                             dormitories.add(result.dormitory);
-                            System.out.println(result.dormitory);
                             //余量-1
                             surplus--;
                             capacityNow++;
@@ -109,16 +106,22 @@ public class DormitoryServiceImpl implements DormitoryService {
                     noDormitoryIndexList.removeAll(lessIndex);
                     noDormitoryIndexListCache.removeAll(lessIndexCache);
                 }
+                //分配完上一次未分配的学生，判断是否还有空位
                 if (surplus <= 0) {
                     break tab1;
                 }
+                //判断这个学生是不是最后一个
+                if (studentsIndex >= cachedAllList.size()) {
+                    //防止更新不及时
+                    buildingDOs.add(buildingDO.setCapacityNow(capacityNow));
+                    break tab;
+                }
                 //第一次（或没有未分配的学生）
-                else {
+                if (noDormitoryIndexList.isEmpty()) {
                     Result result = addDormitory(studentsIndex, addressList, DID, cachedAllList);
                     //该学生分配成功
                     if (result.isAdd) {
                         dormitories.add(result.dormitory);
-                        System.out.println(result.dormitory);
                         //余量-1
                         surplus--;
                         capacityNow++;
@@ -131,31 +134,40 @@ public class DormitoryServiceImpl implements DormitoryService {
                     if (surplus <= 0) {
                         break tab1;
                     }
+                    //缓存里已经没有新的学生
                     if (studentsIndex >= cachedAllList.size()) {
-                        break tab;
+                        //此时需要将索引列表更新，以防下一次分配时不考虑该学生
+                        addressList.clear();
+                        //防止更新不及时
+                        buildingDOs.add(buildingDO.setCapacityNow(capacityNow));
+                        noDormitoryIndexList.addAll(noDormitoryIndexListCache);
+                        continue tab;
                     }
                 }
-
             }
             //该宿舍分配完毕，进行下一个宿舍的分配
             addressList.clear();
             //将临时的索引列表赋给正式列表
             noDormitoryIndexList.addAll(noDormitoryIndexListCache);
+            buildingDOs.add(buildingDO.setCapacityNow(capacityNow));
             //学生分配完以后跳出
             if (studentsIndex >= cachedAllList.size()) {
                 break tab;
             }
-
-
-//            buildingDOS.add(buildingDO.setCapacityNow(capacityNow));
         }
         //防止出现某一性别的列表为空
         if (dormitories.size() != 0) {
-            System.out.println(cachedAllList);
-//            dormitoryMapper.insert(dormitories);
-//            buildingMapper.updateNewInfo(buildingDOS);
+            System.out.println(dormitories);
+            System.out.println(buildingDOs);
+            save(dormitories, buildingDOs);
+
         }
 
+    }
+
+    private void save(List<Dormitory> dormitories, List<BuildingDO> buildingDOs) {
+        dormitoryMapper.insert(dormitories);
+        buildingMapper.updateNewInfo(buildingDOs);
     }
 
     /**
@@ -169,10 +181,6 @@ public class DormitoryServiceImpl implements DormitoryService {
      */
     private Result addDormitory(Integer index, List<String> addressList, Integer DID, List<Dormitory> cachedAllList) {
         Dormitory dormitory = cachedAllList.get(index);
-//        Integer sid = dormitory.getSID();
-//        if (sid==16){
-//            System.out.println(666);
-//        }
         String address = dormitory.getAddress();
         //是否分配成功
         boolean isAdd;
@@ -270,11 +278,9 @@ public class DormitoryServiceImpl implements DormitoryService {
         dormitoryList = dormitoryMapper.findDidBySid(dormitoryList);
         //所有did的列表
         List<Integer> DIDList = new ArrayList<>();
-        System.out.println(dormitoryList);
         for (DormitoryDO dormitoryDO : dormitoryList) {
             DIDList.add(dormitoryDO.getDID());
         }
-        System.out.println(DIDList);
         //需要进行更新的building列表
         List<BuildingDO> buildingDOList = ListUtils.newArrayListWithExpectedSize(BATCH_COUNT);
         for (BuildingDO buildingDO : allBuildingDO) {
@@ -284,15 +290,16 @@ public class DormitoryServiceImpl implements DormitoryService {
             if (capacity == 0) {
                 continue;
             }
-            System.out.println(capacity);
             //新的building对象，重新赋容量值
             BuildingDO buildingDONew = new BuildingDO();
+            if (buildingDO.getDID() == 19) {
+                System.out.println(1);
+            }
             buildingDONew.setDID(buildingDO.getDID());
             buildingDONew.setCapacityNow(buildingDO.getCapacityNow() - capacity);
             buildingDONew.setCapacity(buildingDO.getCapacity());
             buildingDOList.add(buildingDONew);
         }
-        System.out.println(buildingDOList);
         return buildingDOList;
     }
 }
