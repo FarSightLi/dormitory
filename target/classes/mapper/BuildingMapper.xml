@@ -12,7 +12,8 @@
         select did, capacity_now, capacity
         from building
         where sex = #{sex}
-          and capacity - capacity_now > 0 limit #{count};
+          and capacity - capacity_now > 0
+        limit #{count};
     </select>
 
     <update id="updateNewInfo" parameterType="java.util.LinkedList">

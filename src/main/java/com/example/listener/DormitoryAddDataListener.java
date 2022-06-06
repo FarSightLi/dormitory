@@ -45,8 +45,13 @@ public class DormitoryAddDataListener extends AnalysisEventListener<Dormitory> {
      */
     @Override
     public void invoke(Dormitory data, AnalysisContext context) {
-        LOGGER.info("解析到一条数据:{}", JSON.toJSONString(data));
-        cachedDataList.add(data);
+        //防止解析到空数据
+        if (data.getSID() == null) {
+            LOGGER.info("解析到一条空数据");
+        } else {
+            LOGGER.info("解析到一条数据:{}", JSON.toJSONString(data));
+            cachedDataList.add(data);
+        }
         // 达到BATCH_COUNT了，需要去存储一次数据库，防止数据几万条数据在内存，容易OOM
         if (cachedDataList.size() >= BATCH_COUNT) {
             saveData();

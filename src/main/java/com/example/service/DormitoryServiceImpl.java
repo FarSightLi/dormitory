@@ -159,7 +159,7 @@ public class DormitoryServiceImpl implements DormitoryService {
         if (dormitories.size() != 0) {
             System.out.println(dormitories);
             System.out.println(buildingDOs);
-            save(dormitories, buildingDOs);
+//            save(dormitories, buildingDOs);
 
         }
 
@@ -257,6 +257,7 @@ public class DormitoryServiceImpl implements DormitoryService {
     public void addStudents(List<Dormitory> dormitoryList) {
         dealMenDormitory(dormitoryList);
         dealWomenDormitory(dormitoryList);
+        System.out.println(dormitoryList.size());
 
     }
 
