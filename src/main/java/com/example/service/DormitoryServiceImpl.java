@@ -3,6 +3,7 @@ package com.example.service;
 import com.alibaba.excel.util.ListUtils;
 import com.example.DO.BuildingDO;
 import com.example.DO.DormitoryDO;
+import com.example.entity.Building;
 import com.example.entity.Dormitory;
 import com.example.entity.DormitoryDetails;
 import com.example.mapper.BuildingMapper;
@@ -157,14 +158,14 @@ public class DormitoryServiceImpl implements DormitoryService {
         }
         //防止出现某一性别的列表为空
         if (dormitories.size() != 0) {
-            System.out.println(dormitories);
-            System.out.println(buildingDOs);
-//            save(dormitories, buildingDOs);
-
+            save(dormitories, buildingDOs);
         }
 
     }
 
+    /***
+     * 持久化
+     */
     private void save(List<Dormitory> dormitories, List<BuildingDO> buildingDOs) {
         dormitoryMapper.insert(dormitories);
         buildingMapper.updateNewInfo(buildingDOs);
@@ -262,8 +263,8 @@ public class DormitoryServiceImpl implements DormitoryService {
     }
 
     @Override
-    public List<DormitoryDetails> selectAll() {
-        return dormitoryMapper.selectAll();
+    public List<DormitoryDetails> selectAll(String order) {
+        return dormitoryMapper.selectAll(order);
     }
 
     @Override
@@ -302,5 +303,26 @@ public class DormitoryServiceImpl implements DormitoryService {
             buildingDOList.add(buildingDONew);
         }
         return buildingDOList;
+    }
+
+    @Override
+    public void initialStudents(List<DormitoryDetails> dormitoryList) {
+        List<Building> buildingList = getBuilding(dormitoryList);
+        buildingMapper.initialBuilding(buildingList);
+        dormitoryMapper.initial(dormitoryList);
+
+    }
+
+    private List<Building> getBuilding(List<DormitoryDetails> dormitoryList) {
+        List<Building> buildingList = new ArrayList<>();
+        for (DormitoryDetails dormitory : dormitoryList) {
+            Building building = new Building();
+            Integer dormitoryName = dormitory.getDormitoryName();
+            String buildingName = dormitory.getBuildingName();
+            building.setBuildingName(buildingName);
+            building.setDormitoryName(dormitoryName);
+            buildingList.add(building);
+        }
+        return buildingList;
     }
 }

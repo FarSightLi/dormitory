@@ -15,6 +15,10 @@
             margin: 80px;
         }
 
+        #little-box1 {
+            margin: 80px;
+        }
+
         #little-box2 {
             margin: 80px;
         }
@@ -26,16 +30,35 @@
 </head>
 <body>
 <div id="box">
-    <span>下载查看学生名单（按学号排序）</span>
     <div>
-        <form action="/dormitory/downloadFailedUsingJson">
-            <input name="order" type="radio" value="SID"/> 按学号顺序
-            <input name="order" type="radio" value="DID/> 按宿舍顺序
-            <input value=" 下载" type="submit">
+        <span>第一次使用请初始化</span>
+        <a href="initial.html">点击跳转初始化页面 </a>
+    </div>
+    <div>
+        <span>下载查看学生名单</span>
+        <form action="/dormitory/downloadDormitory">
+            <input name="order" type="radio" value="sid"/> 按学号顺序
+            <input name="order" type="radio" value="did"/> 按宿舍顺序
+            <input type="submit" value=" 下载"/>
+        </form>
+        <span>下载查看宿舍名单</span>
+        <form action="/dormitory/downloadBuilding">
+            <input type="submit" value=" 下载"/>
         </form>
     </div>
 
     <div>
+        <form action="/dormitory/updateBuilding" enctype="multipart/form-data" id="update-new-form" method="post">
+            <div id="little-box0">
+                <span>选择需要修改的宿舍名单</span>
+                <div>
+                    　　　<input id="update-new" name="file" type="file"/> <br/>
+                    　　　<input id="update-new-btn" type="button" value="上传需要修改的名单"/>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div id="">
         <form action="/dormitory/uploadNew" enctype="multipart/form-data" id="upload-new-form" method="post">
             <div id="little-box1">
                 <span>选择新增学生名单</span>
@@ -57,16 +80,16 @@
         </div>
     </div>
     <div id="little-box3">
-        <span>上传宿舍名单</span>
+        <span>上传宿舍名单(已经分配好的)</span>
         <div>
             <form action="dormitory/uploadBuilding" enctype="multipart/form-data" id="upload-building-form"
                   method="post">
                 <input id="upload-building" name="file" type="file"/> <br/>
                 <input id="building-btn" type="button" value="上传宿舍名单"/>
             </form>
-
         </div>
     </div>
+
 </div>
 
 <script type="text/javascript">
@@ -112,6 +135,25 @@
         var data = new FormData($("#upload-building-form")[0]);
         $.ajax({
             url: "/dormitory/uploadBuilding",
+            type: "post",
+            data: data,
+            dataType: "json",
+            processData: false,
+            contentType: false,
+            success: function (re) {
+                if (re.errorCode == 200) {
+                    alert("分配成功！");
+                    location.href = "/home.html";
+                } else {
+                    alert("失败！" + re.message);
+                }
+            }
+        });
+    });
+    $("#update-new-btn").click(function () {
+        var data = new FormData($("#update-new-form")[0]);
+        $.ajax({
+            url: "/dormitory/updateBuilding",
             type: "post",
             data: data,
             dataType: "json",

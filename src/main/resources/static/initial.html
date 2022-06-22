@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>初始化</title>
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+</head>
+<body>
+
+<div id="little-box4">
+    <span>上传宿舍名单(空的)</span>
+    <div>
+        <form action="dormitory/uploadBuilding" enctype="multipart/form-data" id="upload-building-new-form"
+              method="post">
+            <input name="file" type="file"/> <br/>
+            <input id="building-btn-new" type="button" value="上传宿舍名单"/>
+        </form>
+    </div>
+</div>
+<div id="little-box5">
+    <span>上传学生名单(已经分配好宿舍的)</span>
+    <div>
+        <form action="dormitory/initialStudents" enctype="multipart/form-data" id="dormitory-form"
+              method="post">
+            <input name="file" type="file"/> <br/>
+            <input id="dormitory-btn" type="button" value="上传学生名单"/>
+        </form>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    $("#building-btn-new").click(function () {
+        var data = new FormData($("#upload-building-new-form")[0]);
+        $.ajax({
+            url: "/dormitory/uploadBuilding",
+            type: "post",
+            data: data,
+            dataType: "json",
+            processData: false,
+            contentType: false,
+            success: function (re) {
+                if (re.errorCode == 200) {
+                    alert("上传成功！");
+                    location.href = "/home.html";
+                } else {
+                    alert("失败！" + re.message);
+                }
+            }
+        });
+    });
+    $("#dormitory-btn").click(function () {
+        var data = new FormData($("#dormitory-form")[0]);
+        $.ajax({
+            url: "/dormitory/initialStudents",
+            type: "post",
+            data: data,
+            dataType: "json",
+            processData: false,
+            contentType: false,
+            success: function (re) {
+                if (re.errorCode == 200) {
+                    alert("上传成功！");
+                    location.href = "/home.html";
+                } else {
+                    alert("失败！" + re.message);
+                }
+            }
+        });
+    });
+</script>
+</html>

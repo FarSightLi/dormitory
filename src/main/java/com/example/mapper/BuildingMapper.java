@@ -17,4 +17,11 @@ public interface BuildingMapper {
 
     ArrayList<BuildingDO> findAll();
 
+    ArrayList<Building> showAll();
+
+    Integer updateBuilding(List<Building> buildingList);
+
+
+    void initialBuilding(List<Building> buildingList);
+
 }

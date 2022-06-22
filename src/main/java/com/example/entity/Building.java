@@ -24,8 +24,6 @@ public class Building {
     private Integer capacity;
     @ExcelProperty("现人数")
     private Integer capacityNow;
-    @ExcelProperty("状态码")
-    private Integer code;
 
     public Integer getDID() {
         return DID;
@@ -75,25 +73,17 @@ public class Building {
         this.capacityNow = capacityNow;
     }
 
-    public Integer getCode() {
-        return code;
-    }
-
-    public void setCode(Integer code) {
-        this.code = code;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Building building = (Building) o;
-        return Objects.equals(DID, building.DID) && Objects.equals(dormitoryName, building.dormitoryName) && Objects.equals(buildingName, building.buildingName) && Objects.equals(sex, building.sex) && Objects.equals(capacity, building.capacity) && Objects.equals(capacityNow, building.capacityNow) && Objects.equals(code, building.code);
+        return Objects.equals(DID, building.DID) && Objects.equals(dormitoryName, building.dormitoryName) && Objects.equals(buildingName, building.buildingName) && Objects.equals(sex, building.sex) && Objects.equals(capacity, building.capacity) && Objects.equals(capacityNow, building.capacityNow);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(DID, dormitoryName, buildingName, sex, capacity, capacityNow, code);
+        return Objects.hash(DID, dormitoryName, buildingName, sex, capacity, capacityNow);
     }
 
     @Override
@@ -101,11 +91,10 @@ public class Building {
         return "Building{" +
                 "DID=" + DID +
                 ", dormitoryName='" + dormitoryName + '\'' +
-                ", buildName='" + buildingName + '\'' +
+                ", buildingName='" + buildingName + '\'' +
                 ", sex='" + sex + '\'' +
                 ", capacity=" + capacity +
                 ", capacityNow=" + capacityNow +
-                ", code=" + code +
                 '}';
     }
 }

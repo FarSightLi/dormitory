@@ -22,10 +22,12 @@ public interface DormitoryMapper {
     //查询宿舍的现人数
     Integer capacityNow(Integer DID);
 
-    List<DormitoryDetails> selectAll();
+    List<DormitoryDetails> selectAll(String order);
 
     Integer deleteStudent(List<DormitoryDO> dormitories);
 
     List<DormitoryDO> findDidBySid(List<DormitoryDO> dormitoryDOList);
+
+    void initial(List<DormitoryDetails> dormitoryDetails);
 
 }

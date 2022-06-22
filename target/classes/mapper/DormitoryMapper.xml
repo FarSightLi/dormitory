@@ -55,7 +55,15 @@
         SELECT d.`sid`, d.`name`, b.`dormitory_name`, b.`building_name`
         FROM dormitory AS d
                  LEFT JOIN building AS b
-                           ON d.`did` = b.`did`;
+                           ON d.`did` = b.`did`
+        <choose>
+            <when test="order == 'sid' ">
+                order by d.sid;
+            </when>
+            <when test="order == 'did' ">
+                order by d.did;
+            </when>
+        </choose>
     </select>
 
     <delete id="deleteStudent" parameterType="java.util.List">
@@ -72,5 +80,15 @@
         </foreach>
 
     </select>
+
+    <insert id="initial" parameterType="java.util.List">
+        insert into dormitory (sid,name,did,sex)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.SID},#{item.studentName},(SELECT did FROM building WHERE building_name=#{item.buildingName} AND dormitory_name=#{item.dormitoryName})
+            ,(select sex from building WHERE building_name=#{item.buildingName} AND dormitory_name=#{item.dormitoryName}) )
+        </foreach>
+        ;
+    </insert>
 
 </mapper>

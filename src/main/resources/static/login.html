@@ -7,13 +7,16 @@
     <meta content="" name="description">
     <meta content="" name="author">
     <title>登录</title>
-    <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
-          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" rel="stylesheet">
-    <link crossorigin="anonymous" href="https://getbootstrap.com/docs/4.0/examples/signin/signin.css" rel="stylesheet"/>
     <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <style>
+        #box {
+            margin-top: 200px;
+            margin-left: 500px;
+        }
+    </style>
 </head>
 <body>
-<div class="container">
+<div class="container" id="box">
     <form action="/login" class="form-signin" id="form-login" method="post">
         <h2 class="form-signin-heading">请登录</h2>
         <p>
@@ -29,24 +32,4 @@
     </form>
 </div>
 </body>
-<!--<script type="text/javascript">-->
-<!--    $("#btn-login").click(function() {-->
-<!--        $.ajax({-->
-<!--            url: "/login",-->
-<!--            type: "post",-->
-<!--            data: $("#form-login").serialize(),-->
-<!--            dataType: "json",-->
-<!--            processData: false,-->
-<!--            contentType: false,-->
-<!--            success: function(re) {-->
-<!--                if (re.errorCode == 200) {-->
-<!--                    alert("注册成功！");-->
-<!--                    location.href = "/home.html";-->
-<!--                } else {-->
-<!--                    alert("注册失败！" + json.message);-->
-<!--                }-->
-<!--            }-->
-<!--        });-->
-<!--    });-->
-<!--</script>-->
 </html>

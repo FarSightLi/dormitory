@@ -13,7 +13,9 @@ public interface DormitoryService {
 
     void addStudents(List<Dormitory> dormitoryList);
 
-    List<DormitoryDetails> selectAll();
+    List<DormitoryDetails> selectAll(String order);
 
     void deleteStudents(List<DormitoryDO> dormitoryList);
+
+    void initialStudents(List<DormitoryDetails> dormitoryList);
 }

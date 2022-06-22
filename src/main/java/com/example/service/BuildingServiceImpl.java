@@ -5,6 +5,7 @@ import com.example.mapper.BuildingMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,5 +22,15 @@ public class BuildingServiceImpl implements BuildingService {
     @Override
     public void addBuilding(List<Building> buildingList) {
         buildingMapper.addNew(buildingList);
+    }
+
+    @Override
+    public ArrayList<Building> showAll() {
+        return buildingMapper.showAll();
+    }
+
+    @Override
+    public void updateBuilding(List<Building> buildingList) {
+        buildingMapper.updateBuilding(buildingList);
     }
 }

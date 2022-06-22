@@ -8,6 +8,12 @@
         <result column="capacity_now" property="capacityNow"/>
     </resultMap>
 
+    <resultMap id="Building" type="com.example.entity.Building">
+        <result column="capacity_now" property="capacityNow"/>
+        <result column="building_name" property="buildingName"/>
+        <result column="dormitory_name" property="dormitoryName"/>
+    </resultMap>
+
     <select id="noPeopleDormitory" resultMap="BuildingDO">
         select did, capacity_now, capacity
         from building
@@ -23,9 +29,9 @@
     </update>
 
     <insert id="addNew" parameterType="java.util.List">
-        insert into building (did,dormitory_name,building_name,sex,capacity,capacity_now,code) values
+        insert into building (did,dormitory_name,building_name,sex,capacity,capacity_now) values
         <foreach collection="list" item="item" separator=",">
-            (#{item.DID},#{item.dormitoryName},#{item.buildingName},#{item.sex},#{item.capacity},#{item.capacityNow},#{item.code})
+            (#{item.DID},#{item.dormitoryName},#{item.buildingName},#{item.sex},#{item.capacity},#{item.capacityNow})
         </foreach>
     </insert>
 
@@ -33,6 +39,25 @@
         select *
         from building;
     </select>
+
+    <select id="showAll" resultMap="Building">
+        select did, dormitory_name, building_name, capacity_now, capacity, sex
+        from building;
+    </select>
+
+    <update id="updateBuilding" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index">
+            update building set capacity_now = #{item.capacityNow} where building_name = #{item.buildingName} and
+            dormitory_name = #{item.dormitoryName};
+        </foreach>
+    </update>
+
+    <update id="initialBuilding" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index">
+            update building set capacity_now = capacity_now+1 where building_name = #{item.buildingName} and
+            dormitory_name = #{item.dormitoryName};
+        </foreach>
+    </update>
 
 
 </mapper>

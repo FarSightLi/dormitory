@@ -11,7 +11,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
 
 public class DormitoryDetails {
     @ExcelProperty("学号")
-    Integer sid;
+    Integer SID;
     @ExcelProperty("姓名")
     String studentName;
     @ExcelProperty("宿舍名字")
@@ -19,12 +19,12 @@ public class DormitoryDetails {
     @ExcelProperty("楼栋")
     String buildingName;
 
-    public Integer getSid() {
-        return sid;
+    public Integer getSID() {
+        return SID;
     }
 
-    public void setSid(Integer sid) {
-        this.sid = sid;
+    public void setSID(Integer SID) {
+        this.SID = SID;
     }
 
     public String getStudentName() {
@@ -54,7 +54,7 @@ public class DormitoryDetails {
     @Override
     public String toString() {
         return "DormitoryDetails{" +
-                "sid=" + sid +
+                "sid=" + SID +
                 ", studentName='" + studentName + '\'' +
                 ", dormitoryName=" + dormitoryName +
                 ", buildingName='" + buildingName + '\'' +
