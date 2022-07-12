@@ -66,7 +66,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 antMatchers("/test/**").anonymous().
                 antMatchers("/dormitory/**").hasAuthority("all").
                 antMatchers("/dormitory.html").hasAuthority("all").
-                antMatchers("/initial.html").hasAuthority("all").
                 //登出
                         and().logout().
                 permitAll().//允许所有用户
